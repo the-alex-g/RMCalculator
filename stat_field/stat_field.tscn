@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqubu18xo2tn7"]
+
+[ext_resource type="Script" path="res://stat_field/stat_field.gd" id="1_laeaa"]
+
+[node name="StatField" type="GridContainer"]
+columns = 5
+script = ExtResource("1_laeaa")
+
+[node name="Main" type="Label" parent="."]
+layout_mode = 2
+text = "Main"
+horizontal_alignment = 1
+
+[node name="Temp" type="Label" parent="."]
+layout_mode = 2
+text = "Temp."
+horizontal_alignment = 1
+
+[node name="Pot" type="Label" parent="."]
+layout_mode = 2
+text = "Pot."
+horizontal_alignment = 1
+
+[node name="Bonus" type="Label" parent="."]
+layout_mode = 2
+text = "Bonus"
+horizontal_alignment = 1
+
+[node name="Total" type="Label" parent="."]
+layout_mode = 2
+text = "Total"
+horizontal_alignment = 1

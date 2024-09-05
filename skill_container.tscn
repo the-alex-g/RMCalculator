@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvqc8fn7bmm6k"]
+
+[node name="ScrollContainer" type="ScrollContainer"]
+
+[node name="SkillContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
