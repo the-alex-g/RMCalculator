@@ -1,7 +1,16 @@
 extends Control
 
+signal race_changed(new_race: String)
+
 @onready var _stat_field : StatField = $VBoxContainer/StatField
 @onready var _name_field : LineEdit = $VBoxContainer/NameField
+@onready var _class_list : OptionButton = $VBoxContainer/HBoxContainer2/ClassList
+@onready var _race_list : OptionButton = $VBoxContainer/HBoxContainer2/RaceList
+
+
+func _ready() -> void:
+	for race in _stat_field.RACES.keys():
+		_race_list.add_item(race)
 
 
 func _on_save_button_pressed() -> void:
@@ -11,6 +20,7 @@ func _on_save_button_pressed() -> void:
 func _clear() -> void:
 	_name_field.clear()
 	_stat_field.clear()
+	_race_list.select(-1)
 
 
 func _save() -> void:
@@ -18,6 +28,7 @@ func _save() -> void:
 	
 	save_file.set_value("character", "stats", _stat_field.get_save_data())
 	save_file.set_value("character", "name", _name_field.text)
+	save_file.set_value("character", "race", _race_list.get_item_text(_race_list.selected))
 	
 	save_file.save("res://%s.role" % [_name_field.text.to_lower().replace(" ", "_")])
 	
@@ -32,6 +43,10 @@ func _open(filepath: String) -> void:
 	
 	_stat_field.load_from(file.get_value("character", "stats", {}))
 	_name_field.text = file.get_value("character", "name", "")
+	for i in _race_list.item_count:
+		if _race_list.get_item_text(i) == file.get_value("character", "race", ""):
+			_race_list.select(i)
+			break
 
 
 func _make_new() -> void:
@@ -53,3 +68,7 @@ func _on_open_button_pressed() -> void:
 
 func _on_make_new_button_pressed() -> void:
 	_make_new()
+
+
+func _on_race_list_item_selected(index: int) -> void:
+	race_changed.emit(_race_list.get_item_text(index))

@@ -21,6 +21,19 @@ offset_bottom = 40.0
 layout_mode = 2
 placeholder_text = "Character Name"
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RaceList" type="OptionButton" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ClassList" type="OptionButton" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 1
+
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2
 
@@ -39,6 +52,8 @@ text = "Open a Character"
 layout_mode = 2
 text = "Create a New Character"
 
+[connection signal="race_changed" from="." to="VBoxContainer/StatField" method="_on_main_race_changed"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer2/RaceList" to="." method="_on_race_list_item_selected"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MakeNewButton" to="." method="_on_make_new_button_pressed"]
