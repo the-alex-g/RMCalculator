@@ -1,0 +1,193 @@
+[character]
+
+stats={
+"Agility": {
+"bonus": 0,
+"pot": 85,
+"temp": 85
+},
+"Constitution": {
+"bonus": 0,
+"pot": 61,
+"temp": 61
+},
+"Empathy": {
+"bonus": 0,
+"pot": 100,
+"temp": 100
+},
+"Intuition": {
+"bonus": 0,
+"pot": 84,
+"temp": 84
+},
+"Memory": {
+"bonus": 0,
+"pot": 95,
+"temp": 95
+},
+"Presence": {
+"bonus": 0,
+"pot": 66,
+"temp": 66
+},
+"Quickness": {
+"bonus": 0,
+"pot": 66,
+"temp": 66
+},
+"Reasoning": {
+"bonus": 0,
+"pot": 100,
+"temp": 100
+},
+"Self-Discipline": {
+"bonus": 0,
+"pot": 79,
+"temp": 79
+},
+"Strength": {
+"bonus": 0,
+"pot": 38,
+"temp": 38
+}
+}
+name="Nuquerna"
+race="High Man"
+level=19
+class="Scholar"
+
+[skills]
+
+"Stone Crafts"={
+"bonus": 0,
+"rank": 10
+}
+"Flora Lore"={
+"bonus": 10,
+"rank": 15
+}
+"Dragon Lore"={
+"bonus": 0,
+"rank": 11
+}
+"Herb Lore"={
+"bonus": 10,
+"rank": 15
+}
+"First Aid"={
+"bonus": 0,
+"rank": 20
+}
+"Control Lycanthropy"={
+"bonus": 0,
+"rank": 16
+}
+"Tactical Games"={
+"bonus": 0,
+"rank": 8
+}
+"Rope Mastery"={
+"bonus": 0,
+"rank": 13
+}
+"Fauna Lore"={
+"bonus": 0,
+"rank": 11
+}
+Swimming={
+"bonus": 0,
+"rank": 2
+}
+"Weapon Skills Cat #1"={
+"bonus": 10,
+"rank": 15
+}
+"General Perception"={
+"bonus": 0,
+"rank": 17
+}
+"Weapon Skills Cat #2"={
+"bonus": 10,
+"rank": 11
+}
+"Advanced Math"={
+"bonus": 0,
+"rank": 3
+}
+"Basic Math"={
+"bonus": 0,
+"rank": 3
+}
+Physics={
+"bonus": 0,
+"rank": 5
+}
+"Military Organization"={
+"bonus": 0,
+"rank": 4
+}
+Architecture={
+"bonus": 0,
+"rank": 2
+}
+Star-Gazing={
+"bonus": 0,
+"rank": 4
+}
+Foraging={
+"bonus": 0,
+"rank": 10
+}
+Philosophy/Religion={
+"bonus": 0,
+"rank": 1
+}
+"Time Sense"={
+"bonus": 0,
+"rank": 5
+}
+"Direction Sense"={
+"bonus": 0,
+"rank": 4
+}
+"Siege Engineer"={
+"bonus": 0,
+"rank": 4
+}
+"Stone Lore"={
+"bonus": 0,
+"rank": 5
+}
+Mechanition={
+"bonus": 0,
+"rank": 6
+}
+Cookery={
+"bonus": 0,
+"rank": 4
+}
+Sailing={
+"bonus": 0,
+"rank": 1
+}
+"Boat Pilot"={
+"bonus": 0,
+"rank": 2
+}
+Navigation={
+"bonus": 0,
+"rank": 2
+}
+Trap-Building={
+"bonus": 0,
+"rank": 1
+}
+"Set Traps"={
+"bonus": 0,
+"rank": 2
+}
+"Region Lore"={
+"bonus": 0,
+"rank": 1
+}
