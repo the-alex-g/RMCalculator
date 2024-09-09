@@ -1,6 +1,8 @@
 class_name StatField
 extends GridContainer
 
+signal bonuses_changed(new_bonuses: Dictionary)
+
 const STATS := ["Constitution", "Agility", "Self-Discipline", "Memory", "Reasoning", "Strength", "Quickness", "Presence", "Empathy", "Intuition"]
 const RACES := {
 	"Common Man":{"Strength":5, "Self-Discipline":5},
@@ -125,6 +127,7 @@ func _update_bonuses(stat: String) -> void:
 		_bonus_labels[stat].text = str(bonus)
 	else:
 		_bonus_labels[stat].text = ""
+	bonuses_changed.emit(get_total_bonuses())
 
 
 func _get_bonus(stat: String) -> int:
@@ -258,3 +261,18 @@ func _get_pot(temp: int, values: Array) -> int:
 		if temp <= limits[i]:
 			return values[i]
 	return temp
+
+
+func get_total_bonuses() -> Dictionary:
+	return {
+		SkillContainer.AG:_get_bonus("Agility"),
+		SkillContainer.CO:_get_bonus("Constitution"),
+		SkillContainer.SD:_get_bonus("Self-Discipline"),
+		SkillContainer.ME:_get_bonus("Memory"),
+		SkillContainer.RE:_get_bonus("Reasoning"),
+		SkillContainer.ST:_get_bonus("Strength"),
+		SkillContainer.QU:_get_bonus("Quickness"),
+		SkillContainer.PR:_get_bonus("Presence"),
+		SkillContainer.EM:_get_bonus("Empathy"),
+		SkillContainer.IN:_get_bonus("Intuition")
+	}

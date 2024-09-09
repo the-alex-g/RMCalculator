@@ -1,16 +1,21 @@
 extends Control
 
 signal race_changed(new_race: String)
+signal class_changed(new_class: String)
+signal level_changed(new_level: int)
 
 @onready var _stat_field : StatField = $VBoxContainer/StatField
 @onready var _name_field : LineEdit = $VBoxContainer/NameField
 @onready var _class_list : OptionButton = $VBoxContainer/HBoxContainer2/ClassList
 @onready var _race_list : OptionButton = $VBoxContainer/HBoxContainer2/RaceList
+@onready var _skill_container : SkillContainer = $VBoxContainer/SkillContainer
 
 
 func _ready() -> void:
 	for race in _stat_field.RACES.keys():
 		_race_list.add_item(race)
+	for rolemaster_class in _skill_container.CLASS_LEVEL_BONUSES.keys():
+		_class_list.add_item(rolemaster_class)
 
 
 func _on_save_button_pressed() -> void:
@@ -72,3 +77,17 @@ func _on_make_new_button_pressed() -> void:
 
 func _on_race_list_item_selected(index: int) -> void:
 	race_changed.emit(_race_list.get_item_text(index))
+
+
+func _on_stat_field_bonuses_changed(new_bonuses: Dictionary) -> void:
+	_skill_container.stats = new_bonuses
+
+
+func _on_class_list_item_selected(index: int) -> void:
+	class_changed.emit(_class_list.get_item_text(index))
+
+
+func _on_level_text_changed(new_text: String) -> void:
+	if new_text.is_valid_int():
+		var level := maxi(1, int(new_text))
+		level_changed.emit(level)

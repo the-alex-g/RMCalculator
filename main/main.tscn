@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ow1w02rwdu84"]
+[gd_scene load_steps=4 format=3 uid="uid://ow1w02rwdu84"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_3b87w"]
 [ext_resource type="PackedScene" uid="uid://bqubu18xo2tn7" path="res://stat_field/stat_field.tscn" id="1_nyn8g"]
+[ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skill_container.tscn" id="3_rcuqh"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -13,16 +14,20 @@ grow_vertical = 2
 script = ExtResource("1_3b87w")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="NameField" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
 placeholder_text = "Character Name"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
+columns = 2
 
 [node name="RaceList" type="OptionButton" parent="VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(0, 32)
@@ -34,7 +39,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 item_count = 1
 
+[node name="Level" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
+layout_mode = 2
+
+[node name="SkillContainer" parent="VBoxContainer" instance=ExtResource("3_rcuqh")]
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
@@ -52,8 +63,13 @@ text = "Open a Character"
 layout_mode = 2
 text = "Create a New Character"
 
+[connection signal="class_changed" from="." to="VBoxContainer/SkillContainer" method="_on_main_class_changed"]
+[connection signal="level_changed" from="." to="VBoxContainer/SkillContainer" method="_on_main_level_changed"]
 [connection signal="race_changed" from="." to="VBoxContainer/StatField" method="_on_main_race_changed"]
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/RaceList" to="." method="_on_race_list_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer2/ClassList" to="." method="_on_class_list_item_selected"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer2/Level" to="." method="_on_level_text_changed"]
+[connection signal="bonuses_changed" from="VBoxContainer/StatField" to="." method="_on_stat_field_bonuses_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MakeNewButton" to="." method="_on_make_new_button_pressed"]

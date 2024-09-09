@@ -7,9 +7,25 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_3naf5")
 
-[node name="SkillList" type="ItemList" parent="."]
+[node name="SkillName" type="Label" parent="."]
 layout_mode = 2
-item_count = 1
 
-[node name="Label" type="Label" parent="."]
+[node name="SubtractTick" type="Button" parent="."]
+custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
+disabled = true
+text = "-"
+
+[node name="AddTick" type="Button" parent="."]
+layout_mode = 2
+text = "+"
+
+[node name="TickBoxes" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bonus" type="Label" parent="."]
+layout_mode = 2
+
+[connection signal="pressed" from="SubtractTick" to="." method="_on_subtract_tick_pressed"]
+[connection signal="pressed" from="AddTick" to="." method="_on_add_tick_pressed"]
