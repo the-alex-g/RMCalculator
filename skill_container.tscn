@@ -20,8 +20,4 @@ layout_mode = 2
 [node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="AddSkillButton" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "Add"
-
-[connection signal="pressed" from="HBoxContainer/AddSkillButton" to="." method="_on_add_skill_button_pressed"]
+[connection signal="item_selected" from="HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]

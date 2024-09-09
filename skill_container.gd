@@ -316,15 +316,7 @@ func _get_stat_bonus(stat_list : Array) -> int:
 	return floori(bonus / stat_list.size())
 
 
-func _on_add_skill_button_pressed() -> void:
-	_add_skill()
-
-
-func _add_skill(skill_name := "") -> SkillEntry:
-	if skill_name == "":
-		skill_name = _skill_selection_button.get_item_text(
-			_skill_selection_button.get_selected_id()
-		)
+func _add_skill(skill_name: String) -> SkillEntry:
 	for skill_field : SkillEntry in _skill_container.get_children():
 		if skill_field.skill.skill_name == skill_name:
 			return
@@ -360,6 +352,8 @@ func _on_main_class_changed(new_class: String) -> void:
 
 func _on_main_level_changed(new_level: int) -> void:
 	level = new_level
+	for skill_field in _skill_container.get_children():
+		_calculate_bonus(skill_field)
 
 
 func load_from(data:Dictionary) -> void:
@@ -378,3 +372,7 @@ func get_save_data() -> Dictionary:
 func clear() -> void:
 	for child in _skill_container.get_children():
 		child.queue_free()
+
+
+func _on_option_button_item_selected(index: int) -> void:
+	_add_skill(_skill_selection_button.get_item_text(index))

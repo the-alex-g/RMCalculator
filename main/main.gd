@@ -46,8 +46,6 @@ func _save() -> void:
 		save_file.set_value("skills", skill_name, skill_save_data[skill_name])
 	
 	save_file.save("res://%s.role" % [_name_field.text.to_lower().replace(" ", "_")])
-	
-	_clear()
 
 
 func _open(filepath: String) -> void:
