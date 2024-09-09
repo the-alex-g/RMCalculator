@@ -87,7 +87,7 @@ func _on_open_button_pressed() -> void:
 	var file_dialog := FileDialog.new()
 	add_child(file_dialog)
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
-	file_dialog.popup()
+	file_dialog.popup(get_viewport_rect())
 	file_dialog.add_filter("*.role")
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	_open(await file_dialog.file_selected)
