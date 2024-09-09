@@ -195,6 +195,7 @@ func _on_equal_pot_button_pressed() -> void:
 		var pot_edit : LineEdit = _pot_edits[stat]
 		if pot_edit.text == "" and temp != -1:
 			pot_edit.text = str(temp)
+			_pots[stat] = temp
 
 
 func _on_auto_pot_button_pressed() -> void:
@@ -202,7 +203,9 @@ func _on_auto_pot_button_pressed() -> void:
 		var temp : int = _temps.get_or_add(stat, -1)
 		var pot_edit : LineEdit = _pot_edits[stat]
 		if pot_edit.text == "" and temp != -1:
-			pot_edit.text = str(_generate_pot(temp))
+			var potential := _generate_pot(temp)
+			pot_edit.text = str(potential)
+			_pots[stat] = potential
 
 
 func _generate_pot(temp: int) -> int:

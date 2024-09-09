@@ -3,10 +3,19 @@ extends HBoxContainer
 
 signal rank_changed
 
-const MAX_LEVEL := 25
+const MAX_RANK := 25
 
 var skill : SkillContainer.Skill
 var _spacers := 0
+var _extra_bonus := 0 :
+	set(value):
+		_total_bonus -= _extra_bonus
+		_extra_bonus = value
+		_total_bonus += _extra_bonus
+var _total_bonus := 0 :
+	set(value):
+		_total_bonus = value
+		_bonus_label.text = "%s%d" % ["" if _total_bonus < 0 else "+", _total_bonus]
 
 @onready var _add_tick_button : Button = $AddTick
 @onready var _subtract_tick_button : Button = $SubtractTick
@@ -20,18 +29,10 @@ func _ready() -> void:
 
 func _on_subtract_tick_pressed() -> void:
 	_remove_tick_box()
-	await get_tree().process_frame
-	if _tick_container.get_child_count() == 0:
-		_subtract_tick_button.disabled = true
-	_add_tick_button.disabled = false
 
 
 func _on_add_tick_pressed() -> void:
 	_add_tick_box()
-	await get_tree().process_frame
-	if _tick_container.get_child_count() == MAX_LEVEL + _spacers:
-		_add_tick_button.disabled = true
-	_subtract_tick_button.disabled = false
 
 
 func _remove_tick_box() -> void:
@@ -41,8 +42,7 @@ func _remove_tick_box() -> void:
 		await get_tree().process_frame
 		_spacers -= 1
 		_remove_tick_box()
-	else:
-		rank_changed.emit()
+	rank_changed.emit()
 
 
 func _add_tick_box(invisible := false) -> void:
@@ -55,21 +55,66 @@ func _add_tick_box(invisible := false) -> void:
 	if (_tick_container.get_child_count() - _spacers) % 5 == 0:
 		_add_tick_box(true)
 		_spacers += 1
-	else:
-		rank_changed.emit()
+	rank_changed.emit()
 
 
 func calculate_bonus(level: int, class_bonuses: Dictionary, stat_bonus: int) -> void:
+	var bonus := _get_rank_bonus()
+	if skill.category in class_bonuses:
+		bonus += class_bonuses[skill.category] * level
+	bonus += stat_bonus + _extra_bonus
+	_total_bonus = bonus
+
+
+func _get_rank_bonus() -> int:
 	var bonus := 0
-	var tick_marks := _tick_container.get_child_count() - _spacers
-	for i in tick_marks:
+	for i in get_rank():
 		if i < 10:
 			bonus += 5
 		elif i < 20:
 			bonus += 2
 		else:
 			bonus += 1
-	if skill.category in class_bonuses:
-		bonus += class_bonuses[skill.category] * level
-	bonus += stat_bonus
-	_bonus_label.text = str(bonus)
+	return bonus
+
+
+func set_rank(rank: int) -> void:
+	for i in rank:
+		_add_tick_box()
+
+
+func _on_delete_pressed() -> void:
+	queue_free()
+
+
+func get_rank() -> int:
+	return _tick_container.get_child_count() - _spacers
+
+
+func get_save_data() -> Dictionary:
+	return {
+		"rank":get_rank(),
+		"bonus":_extra_bonus
+	}
+
+
+func load_from(data: Dictionary) -> void:
+	set_rank(data["rank"])
+	_extra_bonus = data["bonus"]
+	$OtherBonus.text = str(_extra_bonus)
+
+
+func _on_rank_changed() -> void:
+	await get_tree().process_frame
+	if get_rank() == MAX_RANK:
+		_add_tick_button.disabled = true
+	elif get_rank() == 0:
+		_subtract_tick_button.disabled = true
+	else:
+		_subtract_tick_button.disabled = false
+		_add_tick_button.disabled = false
+
+
+func _on_other_bonus_text_changed(new_text: String) -> void:
+	if new_text.is_valid_int():
+		_extra_bonus = int(new_text)

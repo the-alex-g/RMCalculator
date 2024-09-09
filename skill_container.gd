@@ -1,5 +1,5 @@
 class_name SkillContainer
-extends ScrollContainer
+extends VBoxContainer
 
 enum {CO, AG, PR, EM, RE, IN, QU, ST, SD, ME}
 
@@ -63,7 +63,7 @@ const CLASS_LEVEL_BONUSES := {
 		"Concentration":2,
 		"General":1,
 		"Linguistic":3,
-		"Magical":1,
+		"Medical":1,
 	}
 }
 
@@ -286,8 +286,8 @@ var stats : Dictionary = {}
 var rolemaster_class : String = "Barbarian"
 var level := 1
 
-@onready var _skill_selection_button : OptionButton = $Body/HBoxContainer/OptionButton
-@onready var _skill_container : VBoxContainer = $Body/SkillContainer
+@onready var _skill_selection_button : OptionButton = $HBoxContainer/OptionButton
+@onready var _skill_container : VBoxContainer = $SkillContainer
 
 
 class Skill:
@@ -311,7 +311,6 @@ func _ready() -> void:
 
 func _get_stat_bonus(stat_list : Array) -> int:
 	var bonus := 0.0
-	print(stats)
 	for stat in stat_list:
 		bonus += stats.get_or_add(stat, 0)
 	return floori(bonus / stat_list.size())
@@ -321,10 +320,15 @@ func _on_add_skill_button_pressed() -> void:
 	_add_skill()
 
 
-func _add_skill() -> void:
-	var skill_name := _skill_selection_button.get_item_text(
-		_skill_selection_button.get_selected_id()
-	)
+func _add_skill(skill_name := "") -> SkillEntry:
+	if skill_name == "":
+		skill_name = _skill_selection_button.get_item_text(
+			_skill_selection_button.get_selected_id()
+		)
+	for skill_field : SkillEntry in _skill_container.get_children():
+		if skill_field.skill.skill_name == skill_name:
+			return
+	
 	var skill : Skill = _skill_dict[skill_name]
 	
 	var skill_field := preload("res://skill_entry.tscn").instantiate()
@@ -333,9 +337,12 @@ func _add_skill() -> void:
 	_skill_container.add_child(skill_field)
 	
 	_calculate_bonus(skill_field)
+	
+	return skill_field
 
 
 func _on_skill_field_rank_changed(skill_field: SkillEntry) -> void:
+	await get_tree().process_frame
 	_calculate_bonus(skill_field)
 
 
@@ -353,3 +360,21 @@ func _on_main_class_changed(new_class: String) -> void:
 
 func _on_main_level_changed(new_level: int) -> void:
 	level = new_level
+
+
+func load_from(data:Dictionary) -> void:
+	for skill_name : String in data:
+		var skill_field := _add_skill(skill_name)
+		skill_field.load_from(data[skill_name])
+
+
+func get_save_data() -> Dictionary:
+	var save_dict := {}
+	for skill_field : SkillEntry in _skill_container.get_children():
+		save_dict[skill_field.skill.skill_name] = skill_field.get_save_data()
+	return save_dict
+
+
+func clear() -> void:
+	for child in _skill_container.get_children():
+		child.queue_free()

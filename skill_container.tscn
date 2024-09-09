@@ -2,31 +2,26 @@
 
 [ext_resource type="Script" path="res://skill_container.gd" id="1_6wshi"]
 
-[node name="ScrollContainer" type="ScrollContainer"]
+[node name="SkillContainer" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 script = ExtResource("1_6wshi")
 
-[node name="Body" type="VBoxContainer" parent="."]
+[node name="SkillContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="SkillContainer" type="VBoxContainer" parent="Body"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Body"]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="Body/HBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
 layout_mode = 2
 
-[node name="AddSkillButton" type="Button" parent="Body/HBoxContainer"]
+[node name="AddSkillButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 text = "Add"
 
-[connection signal="pressed" from="Body/HBoxContainer/AddSkillButton" to="." method="_on_add_skill_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/AddSkillButton" to="." method="_on_add_skill_button_pressed"]

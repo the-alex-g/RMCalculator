@@ -4,8 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bqubu18xo2tn7" path="res://stat_field/stat_field.tscn" id="1_nyn8g"]
 [ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skill_container.tscn" id="3_rcuqh"]
 
-[node name="Main" type="Control"]
-layout_mode = 3
+[node name="Main" type="ScrollContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,12 +13,9 @@ grow_vertical = 2
 script = ExtResource("1_3b87w")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="NameField" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
@@ -41,6 +37,8 @@ item_count = 1
 
 [node name="Level" type="LineEdit" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
+placeholder_text = "Level"
+max_length = 3
 
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2

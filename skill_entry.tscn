@@ -7,8 +7,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_3naf5")
 
-[node name="SkillName" type="Label" parent="."]
+[node name="Delete" type="Button" parent="."]
 layout_mode = 2
+text = "X"
+
+[node name="SkillName" type="Label" parent="."]
+custom_minimum_size = Vector2(267, 0)
+layout_mode = 2
+text = "Manuever in Armor - Rigid Leather"
 
 [node name="SubtractTick" type="Button" parent="."]
 custom_minimum_size = Vector2(18, 0)
@@ -24,8 +30,15 @@ text = "+"
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="OtherBonus" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "bonus"
+
 [node name="Bonus" type="Label" parent="."]
 layout_mode = 2
 
+[connection signal="rank_changed" from="." to="." method="_on_rank_changed"]
+[connection signal="pressed" from="Delete" to="." method="_on_delete_pressed"]
 [connection signal="pressed" from="SubtractTick" to="." method="_on_subtract_tick_pressed"]
 [connection signal="pressed" from="AddTick" to="." method="_on_add_tick_pressed"]
+[connection signal="text_changed" from="OtherBonus" to="." method="_on_other_bonus_text_changed"]
