@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bvqc8fn7bmm6k"]
 
-[ext_resource type="Script" path="res://skill_container.gd" id="1_6wshi"]
+[ext_resource type="Script" path="res://skills/skill_container.gd" id="1_6wshi"]
 
 [node name="SkillContainer" type="VBoxContainer"]
 anchors_preset = 15

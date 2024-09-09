@@ -47,7 +47,7 @@ func _remove_tick_box() -> void:
 
 func _add_tick_box(invisible := false) -> void:
 	var tick_mark := TextureRect.new()
-	tick_mark.texture = preload("res://tick_mark.png")
+	tick_mark.texture = preload("res://skills/tick_mark.png")
 	tick_mark.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	if invisible:
 		tick_mark.modulate = Color(1, 1, 1, 0)

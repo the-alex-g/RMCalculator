@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_3b87w"]
 [ext_resource type="PackedScene" uid="uid://bqubu18xo2tn7" path="res://stat_field/stat_field.tscn" id="1_nyn8g"]
-[ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skill_container.tscn" id="3_rcuqh"]
+[ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skills/skill_container.tscn" id="3_rcuqh"]
 
 [node name="Main" type="ScrollContainer"]
 anchors_preset = 15

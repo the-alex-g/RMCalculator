@@ -323,7 +323,7 @@ func _add_skill(skill_name: String) -> SkillEntry:
 	
 	var skill : Skill = _skill_dict[skill_name]
 	
-	var skill_field := preload("res://skill_entry.tscn").instantiate()
+	var skill_field := preload("res://skills/skill_entry.tscn").instantiate()
 	skill_field.skill = skill
 	skill_field.rank_changed.connect(_on_skill_field_rank_changed.bind(skill_field))
 	_skill_container.add_child(skill_field)
