@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _on_save_button_pressed() -> void:
-	_save()
+	_open_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, _save)
 
 
 func _clear() -> void:
@@ -32,7 +32,7 @@ func _clear() -> void:
 	_skill_container.clear()
 
 
-func _save() -> void:
+func _save(to:String) -> void:
 	var save_file := ConfigFile.new()
 	
 	save_file.set_value("character", "stats", _stat_field.get_save_data())
@@ -45,7 +45,7 @@ func _save() -> void:
 	for skill_name in skill_save_data:
 		save_file.set_value("skills", skill_name, skill_save_data[skill_name])
 	
-	save_file.save("res://%s.role" % [_name_field.text.to_lower().replace(" ", "_")])
+	save_file.save(to)
 
 
 func _open(filepath: String) -> void:
@@ -84,13 +84,17 @@ func _make_new() -> void:
 
 
 func _on_open_button_pressed() -> void:
+	_open_file_dialog(FileDialog.FILE_MODE_OPEN_FILE, _open)
+
+
+func _open_file_dialog(file_mode:FileDialog.FileMode, function:Callable) -> void:
 	var file_dialog := FileDialog.new()
 	add_child(file_dialog)
 	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
 	file_dialog.popup(get_viewport_rect())
 	file_dialog.add_filter("*.role")
-	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	_open(await file_dialog.file_selected)
+	file_dialog.file_mode = file_mode
+	function.call(await file_dialog.file_selected)
 	file_dialog.queue_free()
 
 
