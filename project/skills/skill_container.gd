@@ -64,6 +64,292 @@ const CLASS_LEVEL_BONUSES := {
 		"General":1,
 		"Linguistic":3,
 		"Medical":1,
+	},
+	"Thief":{
+		"Combat":2,
+		"Athletic":2,
+		"Deadly":1,
+		"Outdoor":1,
+		"Perception":1,
+		"Subterfuge":3
+	},
+	"Trader":{
+		"Academic":1,
+		"Combat":1,
+		"Deadly":1,
+		"General":2,
+		"Linguistic":2,
+		"Outdoor":1,
+		"Perception":1,
+		"Social":1,
+		"Subterfuge":1
+	},
+	"Warrior Monk":{
+		"Combat":2,
+		"Athletic":2,
+		"Body Dev.":2,
+		"Deadly":1,
+		"Outdoor":2,
+		"Perception":1
+	},
+	"Alchemist":{
+		"Academic":3,
+		"Base Spell Casting":1,
+		"General":2,
+		"Magical":3,
+		"Perception":1,
+	},
+	"Conjurer":{
+		"Academic":3,
+		"Base Spell Casting":1,
+		"Linguistic":2,
+		"Magical":3,
+		"Perception":1,
+	},
+	"Illusionist":{
+		"Academic":2,
+		"Base Spell Casting":1,
+		"Directed Spell":1,
+		"Magical":3,
+		"Perception":2,
+		"Subterfuge":1
+	},
+	"Magician":{
+		"Academic":2,
+		"Base Spell Casting":1,
+		"Directed Spell":3,
+		"Magical":3,
+		"Concentration":1
+	},
+	"Runemaster":{
+		"Academic":2,
+		"Base Spell Casting":1,
+		"Magical":3,
+		"Lingustic":2,
+		"Concentration":1,
+		"Perception":1,
+	},
+	"Lay Healer":{
+		"Academic":2,
+		"Base Spell Casting":1,
+		"Concentration":1,
+		"General":1,
+		"Magical":1,
+		"Medical":3,
+		"Perception":1
+	},
+	"Mentalist":{
+		"Academic":1,
+		"Base Spell Casting":1,
+		"Concentration":3,
+		"Directed Spell":1,
+		"Linguistic":2,
+		"Perception":1
+	},
+	"Sage":{
+		"Academic":3,
+		"Base Spell Casting":1,
+		"Concentration":2,
+		"Linguistic":3,
+		"Magical":1
+	},
+	"Seer":{
+		"Academic":2,
+		"Base Spell Casting":1,
+		"Concentration":2,
+		"Magical":2,
+		"Perception":3
+	},
+	"Animist":{
+		"Base Spell Casting":1,
+		"General":1,
+		"Linguistic":1,
+		"Magical":1,
+		"Medical":1,
+		"Outdoor":3,
+		"Perception":2
+	},
+	"Cleric":{
+		"Academic":1,
+		"Combat":1,
+		"Base Spell Casting":1,
+		"General":2,
+		"Magical":2,
+		"Medical":1,
+		"Perception":2
+	},
+	"Druid":{
+		"Base Spell Casting":1,
+		"Magical":1,
+		"Medical":2,
+		"Outdoor":3,
+		"Perception":1,
+		"Subterfuge":2
+	},
+	"Healer":{
+		"Academic":1,
+		"Base Spell Casting":1,
+		"Body Dev.":2,
+		"Concentration":2,
+		"Magical":1,
+		"Medical":2,
+		"Perception":1
+	},
+	"Shaman":{
+		"Base Spell Casting":1,
+		"Concentration":1,
+		"General":1,
+		"Linguistic":1,
+		"Magical":1,
+		"Medical":1,
+		"Outdoor":3,
+		"Social":1
+	},
+	"Astrologer":{
+		"Academic":2,
+		"Base Spell Casting":2,
+		"Concentration":1,
+		"Directed Spell":1,
+		"Magical":2,
+		"Outdoor":1,
+		"Perception":1
+	},
+	"Crystal Mage":{
+		"Academic":2,
+		"Base Spell Casting":2,
+		"Concentration":1,
+		"Magical":2,
+		"Outdoor":1,
+		"Perception":2
+	},
+	"Mystic":{
+		"Academic":1,
+		"Base Spell Casting":2,
+		"Concentration":3,
+		"Linguistic":1,
+		"Magical":2,
+		"Perception":1
+	},
+	"Necromancer":{
+		"Academic":2,
+		"Base Spell Casting":2,
+		"Directed Spell":1,
+		"Magical":2,
+		"Medical":3,
+	},
+	"Sorceror":{
+		"Academic":1,
+		"Base Spell Casting":2,
+		"Concentration":1,
+		"Directed Spell":2,
+		"Magical":3,
+		"Perception":1
+	},
+	"Warlock":{
+		"Academic":1,
+		"Base Spell Casting":2,
+		"Deadly":1,
+		"Directed Spell":1,
+		"Magical":3,
+		"Perception":2,
+		"Social":1
+	},
+	"Witch":{
+		"Academic":1,
+		"Base Spell Casting":2,
+		"General":1,
+		"Linguistic":1,
+		"Magical":1,
+		"Medical":1,
+		"Outdoor":1,
+		"Perception":1,
+		"Subterfuge":1
+	},
+	"Archmage":{
+		"Academic":3,
+		"Base Spell Casting":3,
+		"Concentration":2,
+		"Magical":2
+	},
+	"Bard":{
+		"Academic":2,
+		"Base Spell Casting":1,
+		"Concentration":1,
+		"General":3,
+		"Linguistic":3,
+	},
+	"Beastmaster":{
+		"Combat":1,
+		"Athletic":1,
+		"Body Dev.":1,
+		"Deadly":1,
+		"General":2,
+		"Outdoor":2,
+		"Perception":1,
+		"Subterfuge":1
+	},
+	"Delver":{
+		"Academic":2,
+		"Combat":2,
+		"Base Spell Casting":1,
+		"Body Dev.":1,
+		"General":2,
+		"Magical":1,
+		"Perception":1,
+	},
+	"Dervish":{
+		"Combat":2,
+		"Athletic":1,
+		"Base Spell Casting":1,
+		"Body Dev.":1,
+		"Deadly":2,
+		"Magical":1,
+		"Social":2
+	},
+	"Monk":{
+		"Academic":1,
+		"Combat":1,
+		"Athletic":2,
+		"Base Spell Casting":1,
+		"Body Dev.":1,
+		"Medical":1,
+		"Outdoor":1,
+		"Perception":1,
+		"Subterfuge":1
+	},
+	"Nightblade":{
+		"Combat":2,
+		"Athletic":2,
+		"Base Spell Casting":1,
+		"Body Dev.":1,
+		"Concentration":1,
+		"Deadly":3,
+	},
+	"Paladin":{
+		"Combat":3,
+		"Athletic":1,
+		"Base Spell Casting":1,
+		"Body Dev.":3,
+		"Perception":1,
+		"Social":1
+	},
+	"Ranger":{
+		"Combat":1,
+		"Athletic":1,
+		"Deadly":1,
+		"General":2,
+		"Outdoor":3,
+		"Perception":1,
+		"Subterfuge":1
+	},
+	"Warrior Mage":{
+		"Combat":2,
+		"Athletic":1,
+		"Base Spell Casting":1,
+		"Body Dev.":2,
+		"Deadly":1,
+		"Magical":2,
+		"Perception":1
 	}
 }
 
