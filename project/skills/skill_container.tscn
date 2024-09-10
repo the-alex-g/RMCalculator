@@ -19,5 +19,6 @@ layout_mode = 2
 
 [node name="OptionButton" type="OptionButton" parent="HBoxContainer"]
 layout_mode = 2
+allow_reselect = true
 
 [connection signal="item_selected" from="HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
