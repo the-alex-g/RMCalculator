@@ -568,9 +568,18 @@ var skills : Array[Skill] = [
 	Skill.new("Trickery", [PR, QU], "Subterfuge")
 ]
 var _skill_dict := {}
-var stats : Dictionary = {}
-var rolemaster_class : String = "Barbarian"
-var level := 1
+var stats : Dictionary = {} :
+	set(value):
+		stats = value
+		_update_all_bonuses()
+var rolemaster_class : String = "Barbarian" :
+	set(value):
+		rolemaster_class = value
+		_update_all_bonuses()
+var level := 1 :
+	set(value):
+		level = value
+		_update_all_bonuses()
 
 @onready var _skill_selection_button : OptionButton = $HBoxContainer/OptionButton
 @onready var _skill_container : VBoxContainer = $SkillContainer
@@ -638,6 +647,9 @@ func _on_main_class_changed(new_class: String) -> void:
 
 func _on_main_level_changed(new_level: int) -> void:
 	level = new_level
+
+
+func _update_all_bonuses() -> void:
 	for skill_field in _skill_container.get_children():
 		_calculate_bonus(skill_field)
 
