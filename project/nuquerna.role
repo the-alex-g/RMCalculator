@@ -54,7 +54,7 @@ stats={
 }
 name="Nuquerna"
 race="High Man"
-level=19
+level=20
 class="Scholar"
 
 [skills]
@@ -101,15 +101,15 @@ Swimming={
 }
 "Weapon Skills Cat #1"={
 "bonus": 10,
-"rank": 15
+"rank": 16
 }
 "General Perception"={
 "bonus": 0,
-"rank": 17
+"rank": 18
 }
 "Weapon Skills Cat #2"={
 "bonus": 10,
-"rank": 11
+"rank": 12
 }
 "Advanced Math"={
 "bonus": 0,
@@ -125,7 +125,7 @@ Physics={
 }
 "Military Organization"={
 "bonus": 0,
-"rank": 4
+"rank": 5
 }
 Architecture={
 "bonus": 0,
@@ -137,19 +137,19 @@ Star-Gazing={
 }
 Foraging={
 "bonus": 0,
-"rank": 10
+"rank": 11
 }
 Philosophy/Religion={
 "bonus": 0,
-"rank": 1
+"rank": 2
 }
 "Time Sense"={
 "bonus": 0,
-"rank": 5
+"rank": 6
 }
 "Direction Sense"={
 "bonus": 0,
-"rank": 4
+"rank": 5
 }
 "Siege Engineer"={
 "bonus": 0,
@@ -165,7 +165,7 @@ Mechanition={
 }
 Cookery={
 "bonus": 0,
-"rank": 4
+"rank": 5
 }
 Sailing={
 "bonus": 0,
@@ -181,11 +181,11 @@ Navigation={
 }
 Trap-Building={
 "bonus": 0,
-"rank": 1
+"rank": 2
 }
 "Set Traps"={
 "bonus": 0,
-"rank": 2
+"rank": 4
 }
 "Region Lore"={
 "bonus": 0,
