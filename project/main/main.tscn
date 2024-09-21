@@ -39,6 +39,10 @@ layout_mode = 2
 placeholder_text = "Level"
 max_length = 3
 
+[node name="LevelUpButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Level Up"
+
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2
 
@@ -66,6 +70,7 @@ text = "Create a New Character"
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/RaceList" to="." method="_on_race_list_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/ClassList" to="." method="_on_class_list_item_selected"]
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer2/Level" to="." method="_on_level_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/LevelUpButton" to="." method="_on_level_up_button_pressed"]
 [connection signal="bonuses_changed" from="VBoxContainer/StatField" to="." method="_on_stat_field_bonuses_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]

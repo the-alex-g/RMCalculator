@@ -18,7 +18,66 @@ const RACES := {
 	"Troll":{"Strength":15, "Quickness":-10, "Presence":-10, "Intuition":-10, "Empathy":-10, "Constitution":15, "Agility":-10, "Self-Discipline":-10, "Memory":-10, "Reasoning":-10}
 }
 const POTENTIAL_TABLE := {
-	
+	10:[25],
+	20:[30],
+	30:[35, 39],
+	35:[38, 42, 59],
+	40:[40, 45, 62],
+	45:[42, 47, 64],
+	49:[44, 49, 66],
+	51:[46, 51, 68],
+	53:[48, 53, 70],
+	55:[50, 55, 71],
+	57:[52, 57, 72, 74, 84],
+	59:[54, 59, 73, 75, 85],
+	61:[56, 61, 74, 76, 86],
+	63:[58, 63, 75, 77, 87],
+	65:[60, 65, 76, 78, 88],
+	67:[62, 67, 77, 79, 88, 89],
+	69:[64, 69, 78, 80, 89, 89],
+	71:[66, 71, 79, 81, 89, 90],
+	73:[68, 73, 80, 82, 90, 90],
+	75:[70, 75, 81, 83, 90, 91],
+	77:[72, 77, 82, 84, 91, 91],
+	79:[74, 79, 83, 85, 91, 92],
+	81:[76, 81, 84, 86, 92, 92],
+	83:[78, 83, 85, 87, 92, 93],
+	85:[80, 85, 86, 88, 93, 93, 94],
+	87:[82, 86, 87, 89, 93, 94, 94],
+	89:[84, 87, 88, 90, 94, 94, 95],
+	90:[86, 88, 89, 91, 94, 95, 95, 97],
+	91:[88, 89, 90, 92, 95, 95, 96, 97],
+	92:[90, 90, 91, 93, 95, 96, 96, 97],
+	93:[91, 91, 92, 94, 96, 96, 97, 98],
+	94:[92, 92, 93, 95, 96, 97, 97, 98, 99],
+	95:[93, 93, 94, 96, 97, 97, 98, 98, 99],
+	96:[94, 94, 95, 97, 97, 98, 98, 99, 99],
+	97:[95, 95, 96, 97, 98, 98, 99, 99, 99],
+	98:[96, 96, 97, 98, 98, 99, 99, 99, 100],
+	99:[97, 97, 98, 98, 99, 99, 100, 100, 100],
+	100:[98, 98, 99, 99, 99, 100, 100, 100, 100, 101]
+}
+const STAT_GAIN_TABLE := {
+	4:[],
+	10:[1, 1, 1],
+	15:[2, 2, 1, 1],
+	20:[3, 3, 2, 1, 1],
+	25:[4, 4, 2, 2, 1, 1],
+	30:[5, 5, 3, 2, 2, 1, 1],
+	35:[6, 5, 3, 2, 2, 1, 1, 1],
+	40:[7, 6, 4, 3, 2, 1, 1, 1],
+	45:[8, 6, 4, 3, 3, 2, 1, 1],
+	50:[9, 7, 5, 3, 3, 2, 1, 1],
+	55:[10, 7, 5, 4, 3, 2, 2, 1, 1],
+	60:[11, 8, 6, 4, 4, 2, 2, 1, 1],
+	65:[11, 8, 6, 4, 4, 3, 2, 1, 1],
+	70:[12, 9, 7, 5, 4, 3, 2, 2, 1],
+	75:[12, 9, 7, 5, 5, 3, 2, 2, 1],
+	80:[13, 10, 8, 6, 5, 3, 3, 2, 1],
+	85:[13, 10, 8, 6, 5, 4, 3, 2, 1],
+	90:[14, 11, 9, 7, 6, 4, 3, 2, 1],
+	95:[14, 11, 9, 7, 6, 4, 3, 2, 1],
+	100:[15, 12, 10, 8, 6, 4, 3, 2, 1]
 }
 
 var _bonus_labels := {}
@@ -61,9 +120,9 @@ func load_from(dict: Dictionary) -> void:
 		_pots[stat] = pot
 		
 		_add_label(stat)
-		_add_label(str(temp))
-		_add_label(str(pot))
-		_add_label(_format_bonus(bonus))
+		_add_line_edit(stat, _on_temp_field_filled, str(temp))
+		_pot_edits[stat] = _add_line_edit(stat, _on_pot_field_filled, str(pot))
+		_add_line_edit(stat, _on_bonus_field_filled, str(bonus))
 		_bonus_labels[stat] = _add_label()
 		
 		_update_bonuses(stat)
@@ -97,9 +156,10 @@ func _add_label(text := "") -> Label:
 	return label
 
 
-func _add_line_edit(stat: String, function: Callable) -> LineEdit:
+func _add_line_edit(stat: String, function: Callable, text:="") -> LineEdit:
 	var line_edit := LineEdit.new()
 	line_edit.max_length = 3
+	line_edit.text = text
 	add_child(line_edit)
 	line_edit.text_changed.connect(function.bind(stat))
 	return line_edit
@@ -210,55 +270,15 @@ func _on_auto_pot_button_pressed() -> void:
 
 func _generate_pot(temp: int) -> int:
 	var roll := randi_range(1, 100)
-	var table := {
-		10:[25],
-		20:[30],
-		30:[35, 39],
-		35:[38, 42, 59],
-		40:[40, 45, 62],
-		45:[42, 47, 64],
-		49:[44, 49, 66],
-		51:[46, 51, 68],
-		53:[48, 53, 70],
-		55:[50, 55, 71],
-		57:[52, 57, 72, 74, 84],
-		59:[54, 59, 73, 75, 85],
-		61:[56, 61, 74, 76, 86],
-		63:[58, 63, 75, 77, 87],
-		65:[60, 65, 76, 78, 88],
-		67:[62, 67, 77, 79, 88, 89],
-		69:[64, 69, 78, 80, 89, 89],
-		71:[66, 71, 79, 81, 89, 90],
-		73:[68, 73, 80, 82, 90, 90],
-		75:[70, 75, 81, 83, 90, 91],
-		77:[72, 77, 82, 84, 91, 91],
-		79:[74, 79, 83, 85, 91, 92],
-		81:[76, 81, 84, 86, 92, 92],
-		83:[78, 83, 85, 87, 92, 93],
-		85:[80, 85, 86, 88, 93, 93, 94],
-		87:[82, 86, 87, 89, 93, 94, 94],
-		89:[84, 87, 88, 90, 94, 94, 95],
-		90:[86, 88, 89, 91, 94, 95, 95, 97],
-		91:[88, 89, 90, 92, 95, 95, 96, 97],
-		92:[90, 90, 91, 93, 95, 96, 96, 97],
-		93:[91, 91, 92, 94, 96, 96, 97, 98],
-		94:[92, 92, 93, 95, 96, 97, 97, 98, 99],
-		95:[93, 93, 94, 96, 97, 97, 98, 98, 99],
-		96:[94, 94, 95, 97, 97, 98, 98, 99, 99],
-		97:[95, 95, 96, 97, 98, 98, 99, 99, 99],
-		98:[96, 96, 97, 98, 98, 99, 99, 99, 100],
-		99:[97, 97, 98, 98, 99, 99, 100, 100, 100],
-		100:[98, 98, 99, 99, 99, 100, 100, 100, 100, 101]
-	}
-	for key : int in table:
+	for key : int in POTENTIAL_TABLE:
 		if roll <= key:
-			return _get_pot(temp, table[key])
+			return _get_pot(temp, POTENTIAL_TABLE[key].duplicate())
 	return temp
 
 
 func _get_pot(temp: int, values: Array) -> int:
 	var limits : Array[int] = [24, 39, 59, 74, 84, 89, 94, 97, 99, 200]
-	for i in limits.size() - values.size():
+	for i in 10 - values.size():
 		values.append(temp)
 	for i in limits.size():
 		if temp <= limits[i]:
@@ -279,3 +299,69 @@ func get_total_bonuses() -> Dictionary:
 		SkillContainer.EM:_get_bonus("Empathy"),
 		SkillContainer.IN:_get_bonus("Intuition")
 	}
+
+
+func level_up() -> void:
+	for stat in STATS:
+		_upgrade_stat(stat)
+
+
+func _upgrade_stat(stat : String) -> void:
+	var roll := randi_range(1, 100)
+	for threshold in STAT_GAIN_TABLE:
+		if roll <= threshold:
+			var stat_gain_list : Array = STAT_GAIN_TABLE[threshold]
+			var difference : int = _pots[stat] - _temps[stat]
+			if difference > 0:
+				if difference == 1 and stat_gain_list.size() == 9:
+					_temps[stat] += stat_gain_list[8]
+				elif difference == 2 and stat_gain_list.size() >= 8:
+					_temps[stat] += stat_gain_list[7]
+				elif difference == 3 and stat_gain_list.size() >= 7:
+					_temps[stat] += stat_gain_list[6]
+				elif difference <= 5 and stat_gain_list.size() >= 6:
+					_temps[stat] += stat_gain_list[5]
+				elif difference <= 7 and stat_gain_list.size() >= 5:
+					_temps[stat] += stat_gain_list[4]
+				elif difference <= 9 and stat_gain_list.size() >= 4:
+					_temps[stat] += stat_gain_list[3]
+				elif difference <= 11 and stat_gain_list.size() >= 3:
+					_temps[stat] += stat_gain_list[2]
+				elif difference <= 14 and stat_gain_list.size() >= 2:
+					_temps[stat] += stat_gain_list[1]
+				elif stat_gain_list.size() > 0:
+					_temps[stat] += stat_gain_list[0]
+			break
+	_update_bonuses(stat)
+
+
+func get_dev_points() -> int:
+	var total := 0
+	for stat in ["Constitution", "Agility", "Self-Discipline", "Memory", "Reasoning"]:
+		total += _calculate_dev_points(_temps[stat])
+	return total
+
+
+func _calculate_dev_points(temp : int) -> int:
+	if temp <= 4:
+		return 1
+	elif temp <= 14:
+		return 2
+	elif temp <= 24:
+		return 3
+	elif temp <= 39:
+		return 4
+	elif temp <= 59:
+		return 5
+	elif temp <= 74:
+		return 6
+	elif temp <= 84:
+		return 7
+	elif temp <= 94:
+		return 8
+	elif temp <= 99:
+		return 9
+	elif temp <= 101:
+		return 10
+	else:
+		return 11

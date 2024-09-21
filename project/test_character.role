@@ -1,0 +1,58 @@
+[character]
+
+stats={
+"Agility": {
+"bonus": 0,
+"pot": 79,
+"temp": 79
+},
+"Constitution": {
+"bonus": 0,
+"pot": 89,
+"temp": 89
+},
+"Empathy": {
+"bonus": 0,
+"pot": 63,
+"temp": 27
+},
+"Intuition": {
+"bonus": 0,
+"pot": 98,
+"temp": 47
+},
+"Memory": {
+"bonus": 0,
+"pot": 71,
+"temp": 71
+},
+"Presence": {
+"bonus": 0,
+"pot": 73,
+"temp": 40
+},
+"Quickness": {
+"bonus": 0,
+"pot": 76,
+"temp": 44
+},
+"Reasoning": {
+"bonus": 0,
+"pot": 74,
+"temp": 69
+},
+"Self-Discipline": {
+"bonus": 0,
+"pot": 77,
+"temp": 77
+},
+"Strength": {
+"bonus": 0,
+"pot": 48,
+"temp": 48
+}
+}
+name="Testo 4"
+race="Common Man"
+level=1
+class="Barbarian"

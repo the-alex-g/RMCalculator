@@ -4,7 +4,11 @@ signal race_changed(new_race: String)
 signal class_changed(new_class: String)
 signal level_changed(new_level: int)
 
-var level := 1
+var level := 1 :
+	set(value):
+		level = maxi(1, value)
+		level_changed.emit(level)
+		$VBoxContainer/HBoxContainer2/Level.text = str(level)
 
 @onready var _stat_field : StatField = $VBoxContainer/StatField
 @onready var _name_field : LineEdit = $VBoxContainer/NameField
@@ -116,5 +120,10 @@ func _on_class_list_item_selected(index: int) -> void:
 
 func _on_level_text_changed(new_text: String) -> void:
 	if new_text.is_valid_int():
-		level = maxi(1, int(new_text))
-		level_changed.emit(level)
+		level = int(new_text)
+
+
+func _on_level_up_button_pressed() -> void:
+	level += 1
+	_stat_field.level_up()
+	print(_stat_field.get_dev_points())
