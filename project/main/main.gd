@@ -15,6 +15,7 @@ var level := 1 :
 @onready var _class_list : OptionButton = $VBoxContainer/HBoxContainer2/ClassList
 @onready var _race_list : OptionButton = $VBoxContainer/HBoxContainer2/RaceList
 @onready var _skill_container : SkillContainer = $VBoxContainer/SkillContainer
+@onready var _dev_point_label : Label = $VBoxContainer/HBoxContainer2/DevPointLabel
 
 
 func _ready() -> void:
@@ -126,4 +127,11 @@ func _on_level_text_changed(new_text: String) -> void:
 func _on_level_up_button_pressed() -> void:
 	level += 1
 	_stat_field.level_up()
-	print(_stat_field.get_dev_points())
+	var dev_points := _stat_field.get_dev_points()
+	_dev_point_label.text = "Dev Points: %d" % [dev_points]
+	_dev_point_label.show()
+	_skill_container.level_up(dev_points)
+
+
+func _on_skill_container_dev_points_updated(new_dev_points: int) -> void:
+	_dev_point_label.text = "Dev Points: %d" % [new_dev_points]

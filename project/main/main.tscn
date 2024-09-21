@@ -43,6 +43,10 @@ max_length = 3
 layout_mode = 2
 text = "Level Up"
 
+[node name="DevPointLabel" type="Label" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+layout_mode = 2
+
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2
 
@@ -72,6 +76,7 @@ text = "Create a New Character"
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer2/Level" to="." method="_on_level_text_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/LevelUpButton" to="." method="_on_level_up_button_pressed"]
 [connection signal="bonuses_changed" from="VBoxContainer/StatField" to="." method="_on_stat_field_bonuses_changed"]
+[connection signal="dev_points_updated" from="VBoxContainer/SkillContainer" to="." method="_on_skill_container_dev_points_updated"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MakeNewButton" to="." method="_on_make_new_button_pressed"]

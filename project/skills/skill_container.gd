@@ -1,6 +1,9 @@
 class_name SkillContainer
 extends VBoxContainer
 
+signal dev_points_updated(new_dev_points: int)
+signal new_level_started
+
 enum {CO, AG, PR, EM, RE, IN, QU, ST, SD, ME}
 
 const CLASS_LEVEL_BONUSES := {
@@ -568,6 +571,10 @@ var skills : Array[Skill] = [
 	Skill.new("Trickery", [PR, QU], "Subterfuge")
 ]
 var _skill_dict := {}
+var _dev_points := 0 :
+	set(value):
+		_dev_points = value
+		dev_points_updated.emit(_dev_points)
 var stats : Dictionary = {} :
 	set(value):
 		stats = value
@@ -620,6 +627,8 @@ func _add_skill(skill_name: String) -> SkillEntry:
 	
 	var skill_field := preload("res://skills/skill_entry.tscn").instantiate()
 	skill_field.skill = skill
+	dev_points_updated.connect(skill_field.on_dev_points_changed)
+	new_level_started.connect(skill_field.on_new_level_started)
 	skill_field.rank_changed.connect(_on_skill_field_rank_changed.bind(skill_field))
 	_skill_container.add_child(skill_field)
 	
@@ -628,7 +637,8 @@ func _add_skill(skill_name: String) -> SkillEntry:
 	return skill_field
 
 
-func _on_skill_field_rank_changed(skill_field: SkillEntry) -> void:
+func _on_skill_field_rank_changed(cost: int, skill_field: SkillEntry) -> void:
+	_dev_points -= cost
 	await get_tree().process_frame
 	_calculate_bonus(skill_field)
 
@@ -674,3 +684,8 @@ func clear() -> void:
 
 func _on_option_button_item_selected(index: int) -> void:
 	_add_skill(_skill_selection_button.get_item_text(index))
+
+
+func level_up(dev_points: int) -> void:
+	_dev_points = dev_points
+	new_level_started.emit()

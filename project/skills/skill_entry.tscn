@@ -16,6 +16,10 @@ custom_minimum_size = Vector2(267, 0)
 layout_mode = 2
 text = "Manuever in Armor - Rigid Leather"
 
+[node name="Cost" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Cost"
+
 [node name="SubtractTick" type="Button" parent="."]
 custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
