@@ -3,12 +3,14 @@ extends ScrollContainer
 signal race_changed(new_race: String)
 signal class_changed(new_class: String)
 signal level_changed(new_level: int)
+signal level_up_finished
 
 var level := 1 :
 	set(value):
 		level = maxi(1, value)
 		level_changed.emit(level)
 		$VBoxContainer/HBoxContainer2/Level.text = str(level)
+var _leveling_up := false
 
 @onready var _stat_field : StatField = $VBoxContainer/StatField
 @onready var _name_field : LineEdit = $VBoxContainer/NameField
@@ -125,12 +127,28 @@ func _on_level_text_changed(new_text: String) -> void:
 
 
 func _on_level_up_button_pressed() -> void:
+	if _leveling_up:
+		_finish_level()
+	else:
+		_level_up()
+
+
+func _finish_level() -> void:
+	_leveling_up = false
+	_dev_point_label.hide()
+	level_up_finished.emit()
+	$VBoxContainer/HBoxContainer2/LevelUpButton.text = "Level Up"
+
+
+func _level_up() -> void:
 	level += 1
 	_stat_field.level_up()
 	var dev_points := _stat_field.get_dev_points()
 	_dev_point_label.text = "Dev Points: %d" % [dev_points]
 	_dev_point_label.show()
 	_skill_container.level_up(dev_points)
+	_leveling_up = true
+	$VBoxContainer/HBoxContainer2/LevelUpButton.text = "Finish Level Up"
 
 
 func _on_skill_container_dev_points_updated(new_dev_points: int) -> void:

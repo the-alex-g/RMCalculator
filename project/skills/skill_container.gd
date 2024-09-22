@@ -3,6 +3,7 @@ extends VBoxContainer
 
 signal dev_points_updated(new_dev_points: int)
 signal new_level_started
+signal level_finished
 
 enum {CO, AG, PR, EM, RE, IN, QU, ST, SD, ME}
 
@@ -627,8 +628,11 @@ func _add_skill(skill_name: String) -> SkillEntry:
 	
 	var skill_field := preload("res://skills/skill_entry.tscn").instantiate()
 	skill_field.skill = skill
+	
 	dev_points_updated.connect(skill_field.on_dev_points_changed)
 	new_level_started.connect(skill_field.on_new_level_started)
+	level_finished.connect(skill_field.on_level_finished)
+	
 	skill_field.rank_changed.connect(_on_skill_field_rank_changed.bind(skill_field))
 	_skill_container.add_child(skill_field)
 	
@@ -689,3 +693,8 @@ func _on_option_button_item_selected(index: int) -> void:
 func level_up(dev_points: int) -> void:
 	_dev_points = dev_points
 	new_level_started.emit()
+
+
+func _on_main_level_up_finished() -> void:
+	level_finished.emit()
+	_dev_points = 0

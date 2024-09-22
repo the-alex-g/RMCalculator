@@ -47,6 +47,10 @@ text = "Level Up"
 visible = false
 layout_mode = 2
 
+[node name="LogLabel" type="Label" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+layout_mode = 2
+
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2
 
@@ -70,6 +74,7 @@ text = "Create a New Character"
 
 [connection signal="class_changed" from="." to="VBoxContainer/SkillContainer" method="_on_main_class_changed"]
 [connection signal="level_changed" from="." to="VBoxContainer/SkillContainer" method="_on_main_level_changed"]
+[connection signal="level_up_finished" from="." to="VBoxContainer/SkillContainer" method="_on_main_level_up_finished"]
 [connection signal="race_changed" from="." to="VBoxContainer/StatField" method="_on_main_race_changed"]
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/RaceList" to="." method="_on_race_list_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer2/ClassList" to="." method="_on_class_list_item_selected"]

@@ -24,6 +24,7 @@ var _dev_points := 0 :
 		_add_tick_button.disabled = not (cost <= _dev_points and cost > 0)
 var _upgrades_this_level := 0 :
 	set(value):
+		print(value)
 		_upgrades_this_level = value
 		_subtract_tick_button.disabled = _upgrades_this_level == 0
 
@@ -128,6 +129,20 @@ func _on_other_bonus_text_changed(new_text: String) -> void:
 
 func on_new_level_started() -> void:
 	_upgrades_this_level = 0
+
+
+func on_level_finished() -> void:
+	var rank := get_rank()
+	for child in _tick_container.get_children():
+		child.queue_free()
+	
+	await get_tree().process_frame
+	
+	for x in rank:
+		_add_tick_box(Color.BLACK)
+	
+	_add_tick_button.disabled = true
+	_subtract_tick_button.disabled = true
 
 
 func on_dev_points_changed(dev_points: int) -> void:
