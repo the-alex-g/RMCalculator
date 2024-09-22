@@ -28,6 +28,7 @@ text = "-"
 
 [node name="AddTick" type="Button" parent="."]
 layout_mode = 2
+disabled = true
 text = "+"
 
 [node name="TickBoxes" type="HBoxContainer" parent="."]

@@ -111,8 +111,9 @@ func load_from(data: Dictionary) -> void:
 	for i in data["rank"]:
 		_add_tick_box(Color.BLACK)
 	_extra_bonus = data["bonus"]
-	_cost_field.text = data["cost"]
+	_cost_field.text = data.get_or_add("cost", "1")
 	$OtherBonus.text = str(_extra_bonus)
+	_subtract_tick_button.disabled = true
 
 
 func _on_rank_changed(_cost: int) -> void:

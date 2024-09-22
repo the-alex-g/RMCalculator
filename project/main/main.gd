@@ -9,17 +9,19 @@ var level := 1 :
 	set(value):
 		level = maxi(1, value)
 		level_changed.emit(level)
-		$VBoxContainer/HBoxContainer2/Level.text = str(level)
+		_level_field.text = str(level)
 var _leveling_up := false
 var _load_path := ""
 
 @onready var _stat_field : StatField = $VBoxContainer/StatField
 @onready var _name_field : LineEdit = $VBoxContainer/NameField
-@onready var _class_list : OptionButton = $VBoxContainer/HBoxContainer2/ClassList
-@onready var _race_list : OptionButton = $VBoxContainer/HBoxContainer2/RaceList
+@onready var _class_list : OptionButton = $VBoxContainer/CharacterOptions/ClassList
+@onready var _race_list : OptionButton = $VBoxContainer/CharacterOptions/RaceList
 @onready var _skill_container : SkillContainer = $VBoxContainer/SkillContainer
-@onready var _dev_point_label : Label = $VBoxContainer/HBoxContainer2/DevPointLabel
-@onready var _log_label : Label = $VBoxContainer/HBoxContainer2/LogLabel
+@onready var _dev_point_label : Label = $VBoxContainer/CharacterOptions/DevPointLabel
+@onready var _log_label : Label = $VBoxContainer/CharacterOptions/LogLabel
+@onready var _level_field : LineEdit = $VBoxContainer/CharacterOptions/Level
+@onready var _level_up_button : Button = $VBoxContainer/CharacterOptions/LevelUpButton
 
 
 func _ready() -> void:
@@ -32,11 +34,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("open"):
-		_open_file_dialog(FileDialog.FILE_MODE_OPEN_FILE, _open)
+		_open_file_dialog(_open)
 	if Input.is_action_just_pressed("save"):
 		_save()
-	if Input.is_action_just_pressed("save_as"):
-		_open_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, _save)
 
 
 func _on_save_button_pressed() -> void:
@@ -48,9 +48,13 @@ func _clear() -> void:
 	_stat_field.clear()
 	_race_list.select(-1)
 	_skill_container.clear()
+	level = 1
 
 
 func _save(to := _load_path) -> void:
+	if to == "":
+		to = "res://characters/%s.cfg" % [_name_field.text.to_snake_case()]
+	
 	var save_file := ConfigFile.new()
 	
 	save_file.set_value("character", "stats", _stat_field.get_save_data())
@@ -76,17 +80,23 @@ func _open(filepath: String) -> void:
 	
 	_stat_field.load_from(file.get_value("character", "stats", {}))
 	_name_field.text = file.get_value("character", "name", "")
+	
 	level = file.get_value("character", "level", 1)
-	$VBoxContainer/HBoxContainer2/Level.text = str(level)
+	_level_field.text = str(level)
 	level_changed.emit(level)
-	_select_item_by_text(_race_list, file.get_value("character", "race", ""))
-	race_changed.emit(file.get_value("character", "race", ""))
-	_select_item_by_text(_class_list, file.get_value("character", "class", ""))
-	class_changed.emit(file.get_value("character", "class", ""))
+	
+	var race : String = file.get_value("character", "race", "")
+	_select_item_by_text(_race_list, race)
+	race_changed.emit(race)
+	
+	var character_class : String = file.get_value("character", "class", "")
+	_select_item_by_text(_class_list, character_class)
+	class_changed.emit(character_class)
 	
 	var skill_dict := {}
-	for skill_name in file.get_section_keys("skills"):
-		skill_dict[skill_name] = file.get_value("skills", skill_name, 1)
+	if file.has_section("skills"):
+		for skill_name in file.get_section_keys("skills"):
+			skill_dict[skill_name] = file.get_value("skills", skill_name, 1)
 	_skill_container.load_from(skill_dict)
 	
 	_load_path = filepath
@@ -106,18 +116,20 @@ func _make_new() -> void:
 
 
 func _on_open_button_pressed() -> void:
-	_open_file_dialog(FileDialog.FILE_MODE_OPEN_FILE, _open)
+	_open_file_dialog(_open)
 
 
-func _open_file_dialog(file_mode:FileDialog.FileMode, function:Callable) -> void:
-	var file_dialog := FileDialog.new()
-	add_child(file_dialog)
-	file_dialog.access = FileDialog.ACCESS_FILESYSTEM
-	file_dialog.popup(get_viewport_rect())
-	file_dialog.add_filter("*.role")
-	file_dialog.file_mode = file_mode
-	function.call(await file_dialog.file_selected)
-	file_dialog.queue_free()
+func _open_file_dialog(function:Callable) -> void:
+	var menu := PopupMenu.new()
+	add_child(menu)
+	menu.popup_centered(Vector2i(300, 200))
+	for file in DirAccess.get_files_at("res://characters/"):
+		menu.add_item(file.get_basename().get_file().capitalize())
+	var index : int = await menu.index_pressed
+	function.call(
+		"res://characters/%s.cfg" % [menu.get_item_text(index).to_snake_case()]
+	)
+	menu.queue_free()
 
 
 func _on_make_new_button_pressed() -> void:
@@ -153,7 +165,7 @@ func _finish_level() -> void:
 	_dev_point_label.hide()
 	_log_label.hide()
 	level_up_finished.emit()
-	$VBoxContainer/HBoxContainer2/LevelUpButton.text = "Level Up"
+	_level_up_button.text = "Level Up"
 
 
 func _level_up() -> void:
@@ -165,12 +177,8 @@ func _level_up() -> void:
 	_dev_point_label.show()
 	_skill_container.level_up(dev_points)
 	_leveling_up = true
-	$VBoxContainer/HBoxContainer2/LevelUpButton.text = "Finish Level Up"
+	_level_up_button.text = "Finish Level Up"
 
 
 func _on_skill_container_dev_points_updated(new_dev_points: int) -> void:
 	_dev_point_label.text = "Dev Points: %d" % [new_dev_points]
-
-
-func _on_save_as_button_pressed() -> void:
-	_open_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, _save)
