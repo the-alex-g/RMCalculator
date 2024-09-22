@@ -24,7 +24,6 @@ var _dev_points := 0 :
 		_add_tick_button.disabled = not (cost <= _dev_points and cost > 0)
 var _upgrades_this_level := 0 :
 	set(value):
-		print(value)
 		_upgrades_this_level = value
 		_subtract_tick_button.disabled = _upgrades_this_level == 0
 

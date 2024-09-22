@@ -50,6 +50,7 @@ layout_mode = 2
 [node name="LogLabel" type="Label" parent="VBoxContainer/HBoxContainer2"]
 visible = false
 layout_mode = 2
+autowrap_mode = 2
 
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2

@@ -82,6 +82,7 @@ const STAT_GAIN_TABLE := {
 
 var _bonus_labels := {}
 var _pot_edits := {}
+var _temp_edits := {}
 var _temps := {}
 var _bonuses := {}
 var _pots := {}
@@ -93,7 +94,7 @@ func edit() -> void:
 	
 	for stat in STATS:
 		_add_label(stat)
-		_add_line_edit(stat, _on_temp_field_filled)
+		_temp_edits[stat] = _add_line_edit(stat, _on_temp_field_filled)
 		_pot_edits[stat] = _add_line_edit(stat, _on_pot_field_filled)
 		_add_line_edit(stat, _on_bonus_field_filled)
 		_bonus_labels[stat] = _add_label()
@@ -120,7 +121,7 @@ func load_from(dict: Dictionary) -> void:
 		_pots[stat] = pot
 		
 		_add_label(stat)
-		_add_line_edit(stat, _on_temp_field_filled, str(temp))
+		_temp_edits[stat] = _add_line_edit(stat, _on_temp_field_filled, str(temp))
 		_pot_edits[stat] = _add_line_edit(stat, _on_pot_field_filled, str(pot))
 		_add_line_edit(stat, _on_bonus_field_filled, str(bonus))
 		_bonus_labels[stat] = _add_label()
@@ -301,38 +302,48 @@ func get_total_bonuses() -> Dictionary:
 	}
 
 
-func level_up() -> void:
+func level_up() -> String:
+	var upgrades := ""
 	for stat in STATS:
-		_upgrade_stat(stat)
+		var bonus := _upgrade_stat(stat)
+		if bonus != 0:
+			if upgrades != "":
+				upgrades += ", "
+			upgrades += "%s: +%d" % [stat, bonus]
+	return upgrades
 
 
-func _upgrade_stat(stat : String) -> void:
+func _upgrade_stat(stat : String) -> int:
 	var roll := randi_range(1, 100)
+	var bonus := 0
 	for threshold in STAT_GAIN_TABLE:
 		if roll <= threshold:
 			var stat_gain_list : Array = STAT_GAIN_TABLE[threshold]
 			var difference : int = _pots[stat] - _temps[stat]
 			if difference > 0:
 				if difference == 1 and stat_gain_list.size() == 9:
-					_temps[stat] += stat_gain_list[8]
+					bonus = stat_gain_list[8]
 				elif difference == 2 and stat_gain_list.size() >= 8:
-					_temps[stat] += stat_gain_list[7]
+					bonus = stat_gain_list[7]
 				elif difference == 3 and stat_gain_list.size() >= 7:
-					_temps[stat] += stat_gain_list[6]
+					bonus = stat_gain_list[6]
 				elif difference <= 5 and stat_gain_list.size() >= 6:
-					_temps[stat] += stat_gain_list[5]
+					bonus = stat_gain_list[5]
 				elif difference <= 7 and stat_gain_list.size() >= 5:
-					_temps[stat] += stat_gain_list[4]
+					bonus = stat_gain_list[4]
 				elif difference <= 9 and stat_gain_list.size() >= 4:
-					_temps[stat] += stat_gain_list[3]
+					bonus = stat_gain_list[3]
 				elif difference <= 11 and stat_gain_list.size() >= 3:
-					_temps[stat] += stat_gain_list[2]
+					bonus = stat_gain_list[2]
 				elif difference <= 14 and stat_gain_list.size() >= 2:
-					_temps[stat] += stat_gain_list[1]
+					bonus = stat_gain_list[1]
 				elif stat_gain_list.size() > 0:
-					_temps[stat] += stat_gain_list[0]
+					bonus = stat_gain_list[0]
 			break
+	_temps[stat] += bonus
+	_temp_edits[stat].text = str(_temps[stat])
 	_update_bonuses(stat)
+	return bonus
 
 
 func get_dev_points() -> int:

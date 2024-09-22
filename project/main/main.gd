@@ -136,13 +136,15 @@ func _on_level_up_button_pressed() -> void:
 func _finish_level() -> void:
 	_leveling_up = false
 	_dev_point_label.hide()
+	$VBoxContainer/HBoxContainer2/LogLabel.hide()
 	level_up_finished.emit()
 	$VBoxContainer/HBoxContainer2/LevelUpButton.text = "Level Up"
 
 
 func _level_up() -> void:
 	level += 1
-	_stat_field.level_up()
+	$VBoxContainer/HBoxContainer2/LogLabel.text = _stat_field.level_up()
+	$VBoxContainer/HBoxContainer2/LogLabel.show()
 	var dev_points := _stat_field.get_dev_points()
 	_dev_point_label.text = "Dev Points: %d" % [dev_points]
 	_dev_point_label.show()
