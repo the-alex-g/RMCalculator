@@ -65,6 +65,10 @@ layout_mode = 2
 layout_mode = 2
 text = "Save"
 
+[node name="SaveAsButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Save As"
+
 [node name="OpenButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Open a Character"
@@ -84,5 +88,6 @@ text = "Create a New Character"
 [connection signal="bonuses_changed" from="VBoxContainer/StatField" to="." method="_on_stat_field_bonuses_changed"]
 [connection signal="dev_points_updated" from="VBoxContainer/SkillContainer" to="." method="_on_skill_container_dev_points_updated"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/SaveAsButton" to="." method="_on_save_as_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/OpenButton" to="." method="_on_open_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/MakeNewButton" to="." method="_on_make_new_button_pressed"]

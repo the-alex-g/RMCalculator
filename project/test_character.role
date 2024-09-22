@@ -14,12 +14,12 @@ stats={
 "Empathy": {
 "bonus": 0,
 "pot": 63,
-"temp": 42
+"temp": 50
 },
 "Intuition": {
 "bonus": 0,
 "pot": 98,
-"temp": 60
+"temp": 71
 },
 "Memory": {
 "bonus": 0,
@@ -29,17 +29,17 @@ stats={
 "Presence": {
 "bonus": 0,
 "pot": 73,
-"temp": 46
+"temp": 60
 },
 "Quickness": {
 "bonus": 0,
 "pot": 76,
-"temp": 54
+"temp": 61
 },
 "Reasoning": {
 "bonus": 0,
 "pot": 74,
-"temp": 71
+"temp": 72
 },
 "Self-Discipline": {
 "bonus": 0,
@@ -54,7 +54,7 @@ stats={
 }
 name="Testo 4"
 race="Common Man"
-level=2
+level=3
 class="Barbarian"
 
 [skills]
@@ -62,15 +62,15 @@ class="Barbarian"
 "Body Development"={
 "bonus": 0,
 "cost": "1/3",
-"rank": 2
+"rank": 3
 }
 "Manuever in Armor - Chain"={
 "bonus": 0,
 "cost": "5/*",
-"rank": 4
+"rank": 9
 }
 "Weapon Skills"={
 "bonus": 0,
 "cost": "1/5",
-"rank": 2
+"rank": 4
 }

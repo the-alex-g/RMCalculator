@@ -11,6 +11,7 @@ var level := 1 :
 		level_changed.emit(level)
 		$VBoxContainer/HBoxContainer2/Level.text = str(level)
 var _leveling_up := false
+var _load_path := ""
 
 @onready var _stat_field : StatField = $VBoxContainer/StatField
 @onready var _name_field : LineEdit = $VBoxContainer/NameField
@@ -18,6 +19,7 @@ var _leveling_up := false
 @onready var _race_list : OptionButton = $VBoxContainer/HBoxContainer2/RaceList
 @onready var _skill_container : SkillContainer = $VBoxContainer/SkillContainer
 @onready var _dev_point_label : Label = $VBoxContainer/HBoxContainer2/DevPointLabel
+@onready var _log_label : Label = $VBoxContainer/HBoxContainer2/LogLabel
 
 
 func _ready() -> void:
@@ -28,8 +30,17 @@ func _ready() -> void:
 	_make_new()
 
 
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("open"):
+		_open_file_dialog(FileDialog.FILE_MODE_OPEN_FILE, _open)
+	if Input.is_action_just_pressed("save"):
+		_save()
+	if Input.is_action_just_pressed("save_as"):
+		_open_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, _save)
+
+
 func _on_save_button_pressed() -> void:
-	_open_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, _save)
+	_save()
 
 
 func _clear() -> void:
@@ -39,7 +50,7 @@ func _clear() -> void:
 	_skill_container.clear()
 
 
-func _save(to:String) -> void:
+func _save(to := _load_path) -> void:
 	var save_file := ConfigFile.new()
 	
 	save_file.set_value("character", "stats", _stat_field.get_save_data())
@@ -53,6 +64,8 @@ func _save(to:String) -> void:
 		save_file.set_value("skills", skill_name, skill_save_data[skill_name])
 	
 	save_file.save(to)
+	
+	_load_path = to
 
 
 func _open(filepath: String) -> void:
@@ -75,6 +88,8 @@ func _open(filepath: String) -> void:
 	for skill_name in file.get_section_keys("skills"):
 		skill_dict[skill_name] = file.get_value("skills", skill_name, 1)
 	_skill_container.load_from(skill_dict)
+	
+	_load_path = filepath
 
 
 func _select_item_by_text(option_button: OptionButton, text: String) -> void:
@@ -136,15 +151,15 @@ func _on_level_up_button_pressed() -> void:
 func _finish_level() -> void:
 	_leveling_up = false
 	_dev_point_label.hide()
-	$VBoxContainer/HBoxContainer2/LogLabel.hide()
+	_log_label.hide()
 	level_up_finished.emit()
 	$VBoxContainer/HBoxContainer2/LevelUpButton.text = "Level Up"
 
 
 func _level_up() -> void:
 	level += 1
-	$VBoxContainer/HBoxContainer2/LogLabel.text = _stat_field.level_up()
-	$VBoxContainer/HBoxContainer2/LogLabel.show()
+	_log_label.text = _stat_field.level_up()
+	_log_label.show()
 	var dev_points := _stat_field.get_dev_points()
 	_dev_point_label.text = "Dev Points: %d" % [dev_points]
 	_dev_point_label.show()
@@ -155,3 +170,7 @@ func _level_up() -> void:
 
 func _on_skill_container_dev_points_updated(new_dev_points: int) -> void:
 	_dev_point_label.text = "Dev Points: %d" % [new_dev_points]
+
+
+func _on_save_as_button_pressed() -> void:
+	_open_file_dialog(FileDialog.FILE_MODE_SAVE_FILE, _save)
