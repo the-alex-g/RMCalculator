@@ -57,6 +57,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Religion"
 
+[node name="Control2" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
@@ -95,6 +99,10 @@ script = ExtResource("1_5gs3u")
 title = "BONUSES"
 sections = Array[String](["Normal", "Race", "Total"])
 
+[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
 [node name="Languages" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 columns = 2
@@ -108,6 +116,10 @@ layout_mode = 2
 script = ExtResource("1_5gs3u")
 title = "RANK"
 sections = Array[String](["Spoken", "Written"])
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
