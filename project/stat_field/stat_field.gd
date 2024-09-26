@@ -191,45 +191,48 @@ func _update_bonuses(stat: String) -> void:
 	bonuses_changed.emit(get_total_bonuses())
 
 
-func _get_bonus(stat: String) -> int:
+static func get_base_bonus(temp: int) -> int:
 	var bonus := 0
-	if stat in _temps:
-		var temp : int = _temps[stat]
-		if temp >= 102:
-			bonus =  35
-		elif temp == 101:
-			bonus =  30
-		elif temp == 100:
-			bonus =  25
-		elif temp >= 98:
-			bonus =  20
-		elif temp >= 95:
-			bonus =  15
-		elif temp >= 90:
-			bonus =  10
-		elif temp >= 75:
-			bonus =  5
-		elif temp >= 25:
-			bonus =  0
-		elif temp >= 10:
-			bonus =  -5
-		elif temp >= 5:
-			bonus =  -10
-		elif temp >= 3:
-			bonus =  -15
-		elif temp == 2:
-			bonus =  -20
-		else:
-			bonus =  -25
+	if temp >= 102:
+		bonus =  35
+	elif temp == 101:
+		bonus =  30
+	elif temp == 100:
+		bonus =  25
+	elif temp >= 98:
+		bonus =  20
+	elif temp >= 95:
+		bonus =  15
+	elif temp >= 90:
+		bonus =  10
+	elif temp >= 75:
+		bonus =  5
+	elif temp >= 25:
+		bonus =  0
+	elif temp >= 10:
+		bonus =  -5
+	elif temp >= 5:
+		bonus =  -10
+	elif temp >= 3:
+		bonus =  -15
+	elif temp == 2:
+		bonus =  -20
+	else:
+		bonus =  -25
+	return bonus
+
+
+func _get_bonus(stat: String) -> int:
+	var bonus := get_base_bonus(_temps.get_or_add(stat, 0))
 	if stat in _bonuses:
 		bonus += _bonuses[stat]
-	return bonus + _get_racial_bonus(stat)
+	return bonus + get_racial_bonus(stat, _race)
 
 
-func _get_racial_bonus(stat: String) -> int:
-	if _race in RACES:
-		if stat in RACES[_race]:
-			return RACES[_race][stat]
+static func get_racial_bonus(stat: String, race: String) -> int:
+	if race in RACES:
+		if stat in RACES[race]:
+			return RACES[race][stat]
 	return 0
 
 
@@ -349,11 +352,11 @@ func _upgrade_stat(stat : String) -> int:
 func get_dev_points() -> int:
 	var total := 0
 	for stat in ["Constitution", "Agility", "Self-Discipline", "Memory", "Reasoning"]:
-		total += _calculate_dev_points(_temps[stat])
+		total += calculate_dev_points(_temps[stat])
 	return total
 
 
-func _calculate_dev_points(temp : int) -> int:
+static func calculate_dev_points(temp : int) -> int:
 	if temp <= 4:
 		return 1
 	elif temp <= 14:

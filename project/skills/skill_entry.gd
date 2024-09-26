@@ -72,16 +72,16 @@ func _add_tick_box(color: Color) -> void:
 
 
 func calculate_bonus(level: int, class_bonuses: Dictionary, stat_bonus: int) -> void:
-	var bonus := _get_rank_bonus()
+	var bonus := get_rank_bonus(get_rank())
 	if skill.category in class_bonuses:
 		bonus += class_bonuses[skill.category] * level
 	bonus += stat_bonus + _extra_bonus
 	_total_bonus = bonus
 
 
-func _get_rank_bonus() -> int:
+static func get_rank_bonus(rank: int) -> int:
 	var bonus := 0
-	for i in get_rank():
+	for i in rank:
 		if i < 10:
 			bonus += 5
 		elif i < 20:
@@ -92,6 +92,9 @@ func _get_rank_bonus() -> int:
 
 
 func _on_delete_pressed() -> void:
+	# ensures skill refund
+	for i in _upgrades_this_level:
+		_remove_tick_box()
 	queue_free()
 
 

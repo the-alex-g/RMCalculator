@@ -357,7 +357,7 @@ const CLASS_LEVEL_BONUSES := {
 	}
 }
 
-var skills : Array[Skill] = [
+static var _skills : Array[Skill] = [
 	Skill.new("Body Development", [CO], "Body Dev."),
 	Skill.new("Administration", [PR, EM], "Academic"),
 	Skill.new("Advanced Math", [RE, ME], "Academic"),
@@ -571,7 +571,7 @@ var skills : Array[Skill] = [
 	Skill.new("Trap-Building", [RE, EM], "Subterfuge"),
 	Skill.new("Trickery", [PR, QU], "Subterfuge")
 ]
-var _skill_dict := {}
+static var skill_dict := {}
 var _dev_points := 0 :
 	set(value):
 		_dev_points = value
@@ -604,12 +604,15 @@ class Skill:
 		category = cat
 
 
+static func _static_init() -> void:
+	for skill in _skills:
+		skill_dict[skill.skill_name] = skill
+
+
 func _ready() -> void:
-	# this is a workaround for having built an array instead of a dict
-	for skill in skills:
-		_skill_dict[skill.skill_name] = skill
-		_skill_selection_button.add_item(skill.skill_name)
-	skills.clear()
+	for skill_name: String in skill_dict:
+		_skill_selection_button.add_item(skill_name)
+	_skills.clear()
 
 
 func _get_stat_bonus(stat_list : Array) -> int:
@@ -624,7 +627,7 @@ func _add_skill(skill_name: String) -> SkillEntry:
 		if skill_field.skill.skill_name == skill_name:
 			return
 	
-	var skill : Skill = _skill_dict[skill_name]
+	var skill : Skill = skill_dict[skill_name]
 	
 	var skill_field := preload("res://skills/skill_entry.tscn").instantiate()
 	skill_field.skill = skill

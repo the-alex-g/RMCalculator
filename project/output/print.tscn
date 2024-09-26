@@ -1,0 +1,145 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbrodt8pnxnyg"]
+
+[ext_resource type="Script" path="res://output/compound_cell.gd" id="1_5gs3u"]
+[ext_resource type="Script" path="res://output/print.gd" id="1_8ihut"]
+
+[node name="Print" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8ihut")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Name" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Character Name: "
+
+[node name="PlayerName" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player Name:"
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Profession"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Level"
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Race"
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Place of Origin"
+
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Religion"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Stats" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+columns = 5
+
+[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+layout_mode = 2
+text = "Main"
+
+[node name="Label5" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+layout_mode = 2
+text = "Abbr."
+horizontal_alignment = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+layout_mode = 2
+text = "Temp."
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+layout_mode = 2
+text = "Pot."
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+layout_mode = 2
+text = "Dev.
+Pts."
+horizontal_alignment = 1
+
+[node name="StatBonuses" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("1_5gs3u")
+title = "BONUSES"
+sections = Array[String](["Normal", "Race", "Total"])
+
+[node name="Languages" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Languages"]
+layout_mode = 2
+text = "Languages"
+
+[node name="CompoundHeading" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Languages"]
+layout_mode = 2
+script = ExtResource("1_5gs3u")
+title = "RANK"
+sections = Array[String](["Spoken", "Written"])
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
+layout_mode = 2
+text = "Skill/Capability"
+vertical_alignment = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
+layout_mode = 2
+text = "Cost"
+vertical_alignment = 2
+
+[node name="Control" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
+layout_mode = 2
+
+[node name="Ranks" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+script = ExtResource("1_5gs3u")
+title = "SKILL RANKS"
+sections = Array[String](["5/Rank", "2/Rank", "1/Rank"])
+
+[node name="Bonuses" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+script = ExtResource("1_5gs3u")
+title = "BONUSES"
+sections = Array[String](["Rank", "Stat", "Level", "Item", "Misc.", "Misc.", "Total"])

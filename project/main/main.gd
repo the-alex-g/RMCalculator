@@ -35,8 +35,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("open"):
 		_open_file_dialog(_open)
-	if Input.is_action_just_pressed("save"):
+	elif Input.is_action_just_pressed("save"):
 		_save()
+	elif Input.is_action_just_pressed("new"):
+		_make_new()
 
 
 func _on_save_button_pressed() -> void:
@@ -100,6 +102,8 @@ func _open(filepath: String) -> void:
 	_skill_container.load_from(skill_dict)
 	
 	_load_path = filepath
+	
+	_dev_point_label.text = ""
 
 
 func _select_item_by_text(option_button: OptionButton, text: String) -> void:
@@ -162,8 +166,8 @@ func _on_level_up_button_pressed() -> void:
 
 func _finish_level() -> void:
 	_leveling_up = false
-	_dev_point_label.hide()
-	_log_label.hide()
+	_dev_point_label.text = ""
+	_log_label.text = ""
 	level_up_finished.emit()
 	_level_up_button.text = "Level Up"
 
@@ -171,10 +175,8 @@ func _finish_level() -> void:
 func _level_up() -> void:
 	level += 1
 	_log_label.text = _stat_field.level_up()
-	_log_label.show()
 	var dev_points := _stat_field.get_dev_points()
 	_dev_point_label.text = "Dev Points: %d" % [dev_points]
-	_dev_point_label.show()
 	_skill_container.level_up(dev_points)
 	_leveling_up = true
 	_level_up_button.text = "Finish Level Up"
