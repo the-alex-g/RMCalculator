@@ -36,7 +36,7 @@ func load_from(path: String) -> void:
 	for stat: String in StatField.STATS:
 		var stat_dict : Dictionary = stat_info.get_or_add(stat, {"temp":0, "pot":0, "bonus":0})
 		for s:String in [
-			stat, "(OP)", str(stat_dict.temp), str(stat_dict.pot)
+			stat, _get_abbr(stat), str(stat_dict.temp), str(stat_dict.pot)
 		]:
 			var label := Label.new()
 			label.text = s
@@ -115,14 +115,26 @@ func load_from(path: String) -> void:
 				label.text = str(level_bonus)
 			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
 			
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(Control.new())
+			label = Label.new()
+			label.text = str(skill_dict.item_bonus) if skill_dict.item_bonus != 0 else ""
+			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
 			
 			label = Label.new()
-			label.text = str(skill_dict.bonus) if skill_dict.bonus != 0 else ""
+			label.text = str(skill_dict.misc_bonus) if skill_dict.misc_bonus != 0 else ""
 			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
 			
 			$VBoxContainer/HBoxContainer2/Bonuses.add_element(Control.new())
 			
 			label = Label.new()
-			label.text = str(skill_dict.bonus + level_bonus + stat_bonus + rank_bonus)
+			label.text = str(skill_dict.item_bonus + skill_dict.misc_bonus + level_bonus + stat_bonus + rank_bonus)
 			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
+
+
+func _get_abbr(stat: String) -> String:
+	var abbr := ""
+	if stat == "Self-Discipline":
+		abbr = "SD"
+	else:
+		for x in 2:
+			abbr += stat[x]
+	return "(%s)" % [abbr.to_upper()]

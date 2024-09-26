@@ -35,9 +35,13 @@ text = "+"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OtherBonus" type="LineEdit" parent="."]
+[node name="Item" type="LineEdit" parent="."]
 layout_mode = 2
-placeholder_text = "bonus"
+placeholder_text = "item"
+
+[node name="Misc" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "misc"
 
 [node name="Bonus" type="Label" parent="."]
 layout_mode = 2
@@ -46,4 +50,5 @@ layout_mode = 2
 [connection signal="pressed" from="Delete" to="." method="_on_delete_pressed"]
 [connection signal="pressed" from="SubtractTick" to="." method="_on_subtract_tick_pressed"]
 [connection signal="pressed" from="AddTick" to="." method="_on_add_tick_pressed"]
-[connection signal="text_changed" from="OtherBonus" to="." method="_on_other_bonus_text_changed"]
+[connection signal="text_changed" from="Item" to="." method="_on_item_text_changed"]
+[connection signal="text_changed" from="Misc" to="." method="_on_misc_text_changed"]

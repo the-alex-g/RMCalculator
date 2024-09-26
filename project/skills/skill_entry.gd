@@ -6,11 +6,16 @@ signal rank_changed(cost: int)
 const MAX_RANK := 25
 
 var skill : SkillContainer.Skill
-var _extra_bonus := 0 :
+var _item_bonus := 0 :
 	set(value):
-		_total_bonus -= _extra_bonus
-		_extra_bonus = value
-		_total_bonus += _extra_bonus
+		_total_bonus -= _item_bonus
+		_item_bonus = value
+		_total_bonus += _item_bonus
+var _misc_bonus := 0 :
+	set(value):
+		_total_bonus -= _misc_bonus
+		_misc_bonus = value
+		_total_bonus += _misc_bonus
 var _total_bonus := 0 :
 	set(value):
 		_total_bonus = value
@@ -75,7 +80,7 @@ func calculate_bonus(level: int, class_bonuses: Dictionary, stat_bonus: int) -> 
 	var bonus := get_rank_bonus(get_rank())
 	if skill.category in class_bonuses:
 		bonus += class_bonuses[skill.category] * level
-	bonus += stat_bonus + _extra_bonus
+	bonus += stat_bonus + _misc_bonus + _item_bonus
 	_total_bonus = bonus
 
 
@@ -105,7 +110,8 @@ func get_rank() -> int:
 func get_save_data() -> Dictionary:
 	return {
 		"rank":get_rank(),
-		"bonus":_extra_bonus,
+		"misc_bonus":_misc_bonus,
+		"item_bonus":_item_bonus,
 		"cost":_cost_field.text
 	}
 
@@ -113,9 +119,11 @@ func get_save_data() -> Dictionary:
 func load_from(data: Dictionary) -> void:
 	for i in data["rank"]:
 		_add_tick_box(Color.BLACK)
-	_extra_bonus = data["bonus"]
+	_misc_bonus = data.get_or_add("misc_bonus", 0)
+	_item_bonus = data.get_or_add("item_bonus", 0)
 	_cost_field.text = data.get_or_add("cost", "1")
-	$OtherBonus.text = str(_extra_bonus)
+	$Item.text = str(_item_bonus)
+	$Misc.text = str(_misc_bonus)
 	_subtract_tick_button.disabled = true
 
 
@@ -123,11 +131,6 @@ func _on_rank_changed(_cost: int) -> void:
 	await get_tree().process_frame
 	if get_rank() == MAX_RANK:
 		_add_tick_button.disabled = true
-
-
-func _on_other_bonus_text_changed(new_text: String) -> void:
-	if new_text.is_valid_int():
-		_extra_bonus = int(new_text)
 
 
 func on_new_level_started() -> void:
@@ -171,3 +174,13 @@ func get_cost() -> int:
 	elif _upgrades_this_level == 0:
 		return int(cost_string)
 	return 0
+
+
+func _on_item_text_changed(new_text: String) -> void:
+	if new_text.is_valid_int():
+		_item_bonus = int(new_text)
+
+
+func _on_misc_text_changed(new_text: String) -> void:
+	if new_text.is_valid_int():
+		_misc_bonus = int(new_text)
