@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbrodt8pnxnyg"]
+[gd_scene load_steps=4 format=3 uid="uid://dbrodt8pnxnyg"]
 
 [ext_resource type="Script" path="res://output/compound_cell.gd" id="1_5gs3u"]
 [ext_resource type="Script" path="res://output/print.gd" id="1_8ihut"]
+
+[sub_resource type="Theme" id="Theme_6l0k2"]
+default_font_size = 8
+Label/colors/font_color = Color(0, 0, 0, 1)
 
 [node name="Print" type="ScrollContainer"]
 anchors_preset = 15
@@ -9,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_6l0k2")
 script = ExtResource("1_8ihut")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -103,15 +108,18 @@ sections = Array[String](["Normal", "Race", "Total"])
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="Languages" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Languages" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
-columns = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Languages"]
 layout_mode = 2
 text = "Languages"
 
-[node name="CompoundHeading" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/Languages"]
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/Languages"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="CompoundHeading" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("1_5gs3u")
 title = "RANK"
@@ -124,31 +132,16 @@ layout_mode = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer2"]
+[node name="GridContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-columns = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
 layout_mode = 2
 text = "Skill/Capability"
 vertical_alignment = 2
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
-layout_mode = 2
-text = "Cost"
-vertical_alignment = 2
-
 [node name="Control" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
 layout_mode = 2
-
-[node name="Control2" type="Label" parent="VBoxContainer/HBoxContainer2/GridContainer"]
-layout_mode = 2
-
-[node name="Ranks" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-script = ExtResource("1_5gs3u")
-title = "SKILL RANKS"
-sections = Array[String](["5/Rank", "2/Rank", "1/Rank"])
 
 [node name="Bonuses" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2

@@ -8,18 +8,18 @@ const MAX_RANK := 25
 var skill : SkillContainer.Skill
 var _item_bonus := 0 :
 	set(value):
-		_total_bonus -= _item_bonus
+		total_bonus -= _item_bonus
 		_item_bonus = value
-		_total_bonus += _item_bonus
+		total_bonus += _item_bonus
 var _misc_bonus := 0 :
 	set(value):
-		_total_bonus -= _misc_bonus
+		total_bonus -= _misc_bonus
 		_misc_bonus = value
-		_total_bonus += _misc_bonus
-var _total_bonus := 0 :
+		total_bonus += _misc_bonus
+var total_bonus := 0 :
 	set(value):
-		_total_bonus = value
-		_bonus_label.text = "%s%d" % ["" if _total_bonus < 0 else "+", _total_bonus]
+		total_bonus = value
+		_bonus_label.text = "%s%d" % ["" if total_bonus < 0 else "+", total_bonus]
 var levels := 0
 var _dev_points := 0 :
 	set(value):
@@ -81,7 +81,7 @@ func calculate_bonus(level: int, class_bonuses: Dictionary, stat_bonus: int) -> 
 	if skill.category in class_bonuses:
 		bonus += class_bonuses[skill.category] * level
 	bonus += stat_bonus + _misc_bonus + _item_bonus
-	_total_bonus = bonus
+	total_bonus = bonus
 
 
 static func get_rank_bonus(rank: int) -> int:

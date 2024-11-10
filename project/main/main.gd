@@ -22,6 +22,7 @@ var _load_path := ""
 @onready var _log_label : Label = $VBoxContainer/CharacterOptions/LogLabel
 @onready var _level_field : LineEdit = $VBoxContainer/CharacterOptions/Level
 @onready var _level_up_button : Button = $VBoxContainer/CharacterOptions/LevelUpButton
+@onready var _hits : Hits = $VBoxContainer/Hits
 
 
 func _ready() -> void:
@@ -184,3 +185,7 @@ func _level_up() -> void:
 
 func _on_skill_container_dev_points_updated(new_dev_points: int) -> void:
 	_dev_point_label.text = "Dev Points: %d" % [new_dev_points]
+
+
+func _on_skill_container_body_dev_upgraded(new_rank: int, bonus: int) -> void:
+	_hits.upgrade(new_rank, bonus)

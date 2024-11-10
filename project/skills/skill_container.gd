@@ -2,6 +2,7 @@ class_name SkillContainer
 extends VBoxContainer
 
 signal dev_points_updated(new_dev_points: int)
+signal body_dev_upgraded(new_rank: int, bonus: int)
 signal new_level_started
 signal level_finished
 
@@ -475,6 +476,9 @@ static var _skills : Array[Skill] = [
 	Skill.new("Appraisal", [RE, SD], "General"),
 	Skill.new("Armor Evaluation", [IN, RE], "General"),
 	Skill.new("Cookery", [RE, AG], "General"),
+	Skill.new("Crafting: Book Maker", [AG, SD], "General"),
+	Skill.new("Crafting: Calligraphy", [AG, SD], "General"),
+	Skill.new("Crafting: Scribe", [AG, SD], "General"),
 	Skill.new("Crafting", [AG, SD], "General"),
 	Skill.new("Fletching", [AG, SD], "General"),
 	Skill.new("Gimmickry", [IN, RE], "General"),
@@ -648,6 +652,8 @@ func _on_skill_field_rank_changed(cost: int, skill_field: SkillEntry) -> void:
 	_dev_points -= cost
 	await get_tree().process_frame
 	_calculate_bonus(skill_field)
+	if skill_field.skill.skill_name == "Body Dev.":
+		body_dev_upgraded.emit(skill_field.get_rank(), skill_field.total_bonus)
 
 
 func _calculate_bonus(skill_field: SkillEntry) -> void:

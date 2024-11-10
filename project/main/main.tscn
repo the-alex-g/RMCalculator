@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://ow1w02rwdu84"]
+[gd_scene load_steps=5 format=3 uid="uid://ow1w02rwdu84"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_3b87w"]
 [ext_resource type="PackedScene" uid="uid://bqubu18xo2tn7" path="res://stat_field/stat_field.tscn" id="1_nyn8g"]
+[ext_resource type="PackedScene" uid="uid://dnt4dwboaj4p6" path="res://hits.tscn" id="3_7kav7"]
 [ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skills/skill_container.tscn" id="3_rcuqh"]
 
 [node name="Main" type="ScrollContainer"]
@@ -53,6 +54,9 @@ autowrap_mode = 2
 [node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
 layout_mode = 2
 
+[node name="Hits" parent="VBoxContainer" instance=ExtResource("3_7kav7")]
+layout_mode = 2
+
 [node name="SkillContainer" parent="VBoxContainer" instance=ExtResource("3_rcuqh")]
 layout_mode = 2
 
@@ -80,6 +84,7 @@ text = "Create a New Character"
 [connection signal="text_changed" from="VBoxContainer/CharacterOptions/Level" to="." method="_on_level_text_changed"]
 [connection signal="pressed" from="VBoxContainer/CharacterOptions/LevelUpButton" to="." method="_on_level_up_button_pressed"]
 [connection signal="bonuses_changed" from="VBoxContainer/StatField" to="." method="_on_stat_field_bonuses_changed"]
+[connection signal="body_dev_upgraded" from="VBoxContainer/SkillContainer" to="." method="_on_skill_container_body_dev_upgraded"]
 [connection signal="dev_points_updated" from="VBoxContainer/SkillContainer" to="." method="_on_skill_container_dev_points_updated"]
 [connection signal="pressed" from="VBoxContainer/EditOptions/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/EditOptions/OpenButton" to="." method="_on_open_button_pressed"]

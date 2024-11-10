@@ -13,6 +13,8 @@ const STAT_NAMES := {
 	SkillContainer.CO:"Constitution"
 }
 
+@onready var _skill_bonus_container : CompoundHeading = $VBoxContainer/HBoxContainer2/Bonuses
+
 
 func _ready() -> void:
 	load_from("res://characters/nuquerna.cfg")
@@ -65,69 +67,51 @@ func load_from(path: String) -> void:
 		for skill_name in file.get_section_keys("skills"):
 			var skill_dict : Dictionary = file.get_value("skills", skill_name, {})
 			var skill : SkillContainer.Skill = SkillContainer.skill_dict[skill_name]
-			var boxes : Array[HBoxContainer] = [HBoxContainer.new(), HBoxContainer.new(), HBoxContainer.new()]
-			for box in boxes:
-				$VBoxContainer/HBoxContainer2/Ranks.add_element(box)
-			for i in skill_dict.rank:
-				var tick := TextureRect.new()
-				tick.custom_minimum_size = Vector2(0, 23)
-				tick.texture = preload("res://skills/tick_mark.png")
-				tick.modulate = Color.BLACK
-				if i % 5 == 4:
-					tick.custom_minimum_size = Vector2(32, 0)
-					tick.size_flags_horizontal = Control.SIZE_SHRINK_END
-					tick.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-					tick.stretch_mode = TextureRect.STRETCH_KEEP
-				else:
-					tick.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
-				if i < 10:
-					boxes[0].add_child(tick)
-				elif i < 20:
-					boxes[1].add_child(tick)
-				else:
-					boxes[2].add_child(tick)
-			var label := Label.new()
-			label.text = skill_name
-			$VBoxContainer/HBoxContainer2/GridContainer.add_child(label)
+				
+			$VBoxContainer/HBoxContainer2/GridContainer.add_child(_get_label(skill_name))
 			
-			label = Label.new()
-			label.text = skill_dict.cost
-			$VBoxContainer/HBoxContainer2/GridContainer.add_child(label)
-			
-			label = Label.new()
 			var rank_bonus := SkillEntry.get_rank_bonus(skill_dict.rank)
-			label.text = str(rank_bonus)
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
+			_skill_bonus_container.add_element(_get_label(str(rank_bonus)))
 			
-			label = Label.new()
 			var stat_bonus := 0
 			for stat in skill.stats:
 				stat_bonus += stat_bonuses[STAT_NAMES[stat]]
 			stat_bonus /= skill.stats.size()
-			label.text = str(floor(stat_bonus))
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
+			_skill_bonus_container.add_element(_get_label(str(floor(stat_bonus))))
 			
-			label = Label.new()
+			var label := Label.new()
 			label.text = ""
 			var level_bonus := 0
 			if skill.category in SkillContainer.CLASS_LEVEL_BONUSES[rm_class]:
 				level_bonus = SkillContainer.CLASS_LEVEL_BONUSES[rm_class][skill.category] * level
 				label.text = str(level_bonus)
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
+			_skill_bonus_container.add_element(label)
+			_skill_bonus_container.add_element(_get_label(
+				str(skill_dict.item_bonus) if skill_dict.item_bonus != 0 else ""
+			))
+			_skill_bonus_container.add_element(_get_label(
+				str(skill_dict.misc_bonus) if skill_dict.misc_bonus != 0 else ""
+			))
+			_skill_bonus_container.add_element(Control.new())
+			_skill_bonus_container.add_element(_get_label(
+				str(skill_dict.item_bonus + skill_dict.misc_bonus + level_bonus + stat_bonus + rank_bonus)
+			))
+	
+	if file.has_section("languages"):
+		for language in file.get_section_keys("languages"):
+			$VBoxContainer/HBoxContainer/Languages.add_child(_get_label(language.capitalize()))
 			
-			label = Label.new()
-			label.text = str(skill_dict.item_bonus) if skill_dict.item_bonus != 0 else ""
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
-			
-			label = Label.new()
-			label.text = str(skill_dict.misc_bonus) if skill_dict.misc_bonus != 0 else ""
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
-			
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(Control.new())
-			
-			label = Label.new()
-			label.text = str(skill_dict.item_bonus + skill_dict.misc_bonus + level_bonus + stat_bonus + rank_bonus)
-			$VBoxContainer/HBoxContainer2/Bonuses.add_element(label)
+			var ranks : Vector2i = file.get_value("languages", language, Vector2i.ZERO)
+			for rank in [ranks.x, ranks.y]:
+				var label := _get_label(str(rank))
+				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				$VBoxContainer/HBoxContainer/CompoundHeading.add_element(label)
+
+
+func _get_label(text: String) -> Label:
+	var label := Label.new()
+	label.text = text
+	return label
 
 
 func _get_abbr(stat: String) -> String:
