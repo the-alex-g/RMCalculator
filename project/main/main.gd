@@ -42,6 +42,8 @@ func _process(_delta: float) -> void:
 		_save()
 	elif Input.is_action_just_pressed("new"):
 		_make_new()
+	elif Input.is_action_just_pressed("export"):
+		_download_jpg()
 
 
 func _on_save_button_pressed() -> void:
@@ -196,6 +198,10 @@ func _on_skill_container_body_dev_upgraded(new_rank: int, bonus: int) -> void:
 
 
 func _on_download_jpg_pressed() -> void:
+	_download_jpg()
+
+
+func _download_jpg() -> void:
 	_print_screen.load_from(_load_path)
 	_print_screen.show()
 	_edit_screen.hide()
