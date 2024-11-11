@@ -133,7 +133,7 @@ layout_mode = 2
 text = "Languages"
 
 [node name="Control" type="Control" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer/Languages"]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
 [node name="CompoundHeading" type="VBoxContainer" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer"]

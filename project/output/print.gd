@@ -64,6 +64,11 @@ func load_from(path: String) -> void:
 			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			$ScrollContainer/PrintBody/HBoxContainer/StatBonuses.add_element(label)
 	
+	for language in file.get_value("character", "languages", []):
+		_language_list_container.add_child(_get_label(language.name))
+		_language_bonus_container.add_element(_get_label(language.spoken, true))
+		_language_bonus_container.add_element(_get_label(language.written, true))
+	
 	if file.has_section("skills"):
 		var i := 0
 		var column := 1
@@ -131,9 +136,11 @@ func _get_skill_name_container(col: int) -> VBoxContainer:
 	return get_node("ScrollContainer/PrintBody/Skills/SkillNameColumn%d" % [col])
 
 
-func _get_label(text: String) -> Label:
+func _get_label(text: String, align_center := false) -> Label:
 	var label := Label.new()
 	label.text = text
+	if align_center:
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	return label
 
 

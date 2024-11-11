@@ -13,7 +13,7 @@ var level := 1 :
 var _leveling_up := false
 var _load_path := ""
 
-@onready var _stat_field : StatField = $EditScreen/Body/StatField
+@onready var _stat_field : StatField = $EditScreen/Body/HBoxContainer/StatField
 @onready var _name_field : LineEdit = $EditScreen/Body/NameField
 @onready var _class_list : OptionButton = $EditScreen/Body/CharacterOptions/ClassList
 @onready var _race_list : OptionButton = $EditScreen/Body/CharacterOptions/RaceList
@@ -25,6 +25,7 @@ var _load_path := ""
 @onready var _hits : Hits = $EditScreen/Body/Hits
 @onready var _edit_screen : ScrollContainer = $EditScreen
 @onready var _print_screen : PrintScreen = $PrintScreen
+@onready var _languages : Languages = $EditScreen/Body/HBoxContainer/Languages
 
 
 func _ready() -> void:
@@ -70,6 +71,7 @@ func _save(to := _load_path) -> void:
 	save_file.set_value("character", "level", level)
 	save_file.set_value("character", "class", _class_list.get_item_text(_class_list.selected))
 	save_file.set_value("character", "hits", _hits.get_save_data())
+	save_file.set_value("character", "languages", _languages.get_save_data())
 	
 	var skill_save_data := _skill_container.get_save_data()
 	for skill_name in skill_save_data:
@@ -101,6 +103,8 @@ func _open(filepath: String) -> void:
 	var character_class : String = file.get_value("character", "class", "")
 	_select_item_by_text(_class_list, character_class)
 	class_changed.emit(character_class)
+	
+	_languages.load_from(file.get_value("character", "languages", []))
 	
 	var skill_dict := {}
 	if file.has_section("skills"):

@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://8atkncvvqbon"]
+
+[ext_resource type="Script" path="res://languages/language_entry.gd" id="1_r5sw5"]
+
+[node name="LanguageEntry" type="HBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource("1_r5sw5")
+
+[node name="DeleteButton" type="Button" parent="."]
+layout_mode = 2
+text = "X"
+
+[node name="Name" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Language Name"
+
+[node name="Spoken" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Spoken"
+max_length = 2
+
+[node name="Written" type="LineEdit" parent="."]
+layout_mode = 2
+placeholder_text = "Written"
+max_length = 2
+
+[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]
