@@ -13,13 +13,21 @@ const STAT_NAMES := {
 	SkillContainer.CO:"Constitution"
 }
 
-@onready var _skill_bonus_container : CompoundHeading = $VBoxContainer/HBoxContainer2/Bonuses
 @onready var _language_list_container : VBoxContainer = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Languages
 @onready var _language_bonus_container : CompoundHeading = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CompoundHeading
 
 
 func _ready() -> void:
 	load_from("res://characters/nuquerna.cfg")
+	
+	await RenderingServer.frame_post_draw
+	
+	var image := get_tree().root.get_texture().get_image()
+	image.crop(
+		$VBoxContainer.size.x,
+		$VBoxContainer.size.y
+	)
+	image.save_jpg("res://mysave.jpg")
 
 
 func load_from(path: String) -> void:
@@ -66,20 +74,28 @@ func load_from(path: String) -> void:
 			$VBoxContainer/HBoxContainer/StatBonuses.add_element(label)
 	
 	if file.has_section("skills"):
+		var i := 0
+		var column := 1
 		for skill_name in file.get_section_keys("skills"):
+			i += 1
+			if column == 1 and i > ceili(file.get_section_keys("skills").size() / 2.0):
+				column = 2
+			
 			var skill_dict : Dictionary = file.get_value("skills", skill_name, {})
 			var skill : SkillContainer.Skill = SkillContainer.skill_dict[skill_name]
-				
-			$VBoxContainer/HBoxContainer2/GridContainer.add_child(_get_label(skill_name))
+			
+			var skill_bonus_container := _get_skill_bonus_container(column)
+			
+			_get_skill_name_container(column).add_child(_get_label(skill_name))
 			
 			var rank_bonus := SkillEntry.get_rank_bonus(skill_dict.rank)
-			_skill_bonus_container.add_element(_get_label(str(rank_bonus)))
+			skill_bonus_container.add_element(_get_label(str(rank_bonus)))
 			
 			var stat_bonus := 0
 			for stat in skill.stats:
 				stat_bonus += stat_bonuses[STAT_NAMES[stat]]
 			stat_bonus /= skill.stats.size()
-			_skill_bonus_container.add_element(_get_label(str(floor(stat_bonus))))
+			skill_bonus_container.add_element(_get_label(str(floor(stat_bonus))))
 			
 			var label := Label.new()
 			label.text = ""
@@ -87,15 +103,15 @@ func load_from(path: String) -> void:
 			if skill.category in SkillContainer.CLASS_LEVEL_BONUSES[rm_class]:
 				level_bonus = SkillContainer.CLASS_LEVEL_BONUSES[rm_class][skill.category] * level
 				label.text = str(level_bonus)
-			_skill_bonus_container.add_element(label)
-			_skill_bonus_container.add_element(_get_label(
+			skill_bonus_container.add_element(label)
+			skill_bonus_container.add_element(_get_label(
 				str(skill_dict.item_bonus) if skill_dict.item_bonus != 0 else ""
 			))
-			_skill_bonus_container.add_element(_get_label(
+			skill_bonus_container.add_element(_get_label(
 				str(skill_dict.misc_bonus) if skill_dict.misc_bonus != 0 else ""
 			))
-			_skill_bonus_container.add_element(Control.new())
-			_skill_bonus_container.add_element(_get_label(
+			skill_bonus_container.add_element(Control.new())
+			skill_bonus_container.add_element(_get_label(
 				str(skill_dict.item_bonus + skill_dict.misc_bonus + level_bonus + stat_bonus + rank_bonus)
 			))
 	
@@ -113,6 +129,14 @@ func load_from(path: String) -> void:
 	$VBoxContainer/HBoxContainer/VBoxContainer/Hits.text = "Total Hits: %d" % [
 		Hits.calculate_total_hits(hits.x, hits.z)
 	]
+
+
+func _get_skill_bonus_container(col: int) -> CompoundHeading:
+	return get_node("VBoxContainer/Skills/BonusesColumn%d" % [col])
+
+
+func _get_skill_name_container(col: int) -> VBoxContainer:
+	return get_node("VBoxContainer/Skills/SkillNameColumn%d" % [col])
 
 
 func _get_label(text: String) -> Label:
