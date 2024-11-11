@@ -162,7 +162,7 @@ func save_jpg() -> void:
 	
 	add_child(popup)
 	
-	popup.popup(Rect2(100, 100, 400, 300))
+	popup.popup(Rect2(100, 100, 600, 400))
 	
 	var path : String = await popup.file_selected
 	

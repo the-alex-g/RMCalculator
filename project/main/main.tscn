@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://ow1w02rwdu84"]
+[gd_scene load_steps=7 format=3 uid="uid://ow1w02rwdu84"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_3b87w"]
 [ext_resource type="PackedScene" uid="uid://bqubu18xo2tn7" path="res://stat_field/stat_field.tscn" id="1_nyn8g"]
 [ext_resource type="PackedScene" uid="uid://dnt4dwboaj4p6" path="res://hits/hits.tscn" id="3_7kav7"]
 [ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skills/skill_container.tscn" id="3_rcuqh"]
 [ext_resource type="PackedScene" uid="uid://ewowhw4c0s5w" path="res://languages/languages.tscn" id="3_yikka"]
-[ext_resource type="PackedScene" uid="uid://dbrodt8pnxnyg" path="res://output/print.tscn" id="5_ibu4b"]
 
 [sub_resource type="Theme" id="Theme_mtamo"]
 Label/colors/font_color = Color(0, 0, 0, 1)
@@ -99,14 +98,6 @@ text = "Create a New Character"
 [node name="DownloadJPG" type="Button" parent="EditScreen/Body/EditOptions"]
 layout_mode = 2
 text = "Download JPG"
-
-[node name="PrintScreen" parent="." instance=ExtResource("5_ibu4b")]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-offset_right = 0.0
-grow_horizontal = 2
 
 [connection signal="class_changed" from="." to="EditScreen/Body/SkillContainer" method="_on_main_class_changed"]
 [connection signal="level_changed" from="." to="EditScreen/Body/SkillContainer" method="_on_main_level_changed"]

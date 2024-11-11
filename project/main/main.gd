@@ -24,7 +24,6 @@ var _load_path := ""
 @onready var _level_up_button : Button = $EditScreen/Body/CharacterOptions/LevelUpButton
 @onready var _hits : Hits = $EditScreen/Body/Hits
 @onready var _edit_screen : ScrollContainer = $EditScreen
-@onready var _print_screen : PrintScreen = $PrintScreen
 @onready var _languages : Languages = $EditScreen/Body/HBoxContainer/Languages
 
 
@@ -206,11 +205,13 @@ func _on_download_jpg_pressed() -> void:
 
 
 func _download_jpg() -> void:
-	_print_screen.load_from(_load_path)
-	_print_screen.show()
+	var print_screen := preload("res://output/print.tscn").instantiate()
+	add_child(print_screen)
+	
+	print_screen.load_from(_load_path)
 	_edit_screen.hide()
 	
-	await _print_screen.finished
+	await print_screen.finished
 	
-	_print_screen.hide()
+	print_screen.queue_free()
 	_edit_screen.show()
