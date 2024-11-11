@@ -19,7 +19,13 @@ var _misc_bonus := 0 :
 var total_bonus := 0 :
 	set(value):
 		total_bonus = value
-		_bonus_label.text = "%s%d" % ["" if total_bonus < 0 else "+", total_bonus]
+		var bonus_prefix := ""
+		if total_bonus > 0:
+			bonus_prefix += "+"
+		var text := "%s%d" % [bonus_prefix, total_bonus]
+		for x in 4 - text.length():
+			text = "  " + text
+		_bonus_label.text = text
 var levels := 0
 var _dev_points := 0 :
 	set(value):

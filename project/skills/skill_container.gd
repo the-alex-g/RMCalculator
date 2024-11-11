@@ -573,7 +573,8 @@ static var _skills : Array[Skill] = [
 	Skill.new("Set Traps", [RE, AG], "Subterfuge"),
 	Skill.new("Stalking and Hiding", [AG, SD], "Subterfuge"),
 	Skill.new("Trap-Building", [RE, EM], "Subterfuge"),
-	Skill.new("Trickery", [PR, QU], "Subterfuge")
+	Skill.new("Trickery", [PR, QU], "Subterfuge"),
+	Skill.new("Power Point Development", [], "Magical"),
 ]
 static var skill_dict := {}
 var _dev_points := 0 :
@@ -620,10 +621,13 @@ func _ready() -> void:
 
 
 func _get_stat_bonus(stat_list : Array) -> int:
-	var bonus := 0.0
-	for stat in stat_list:
-		bonus += stats.get_or_add(stat, 0)
-	return floori(bonus / stat_list.size())
+	if stat_list.size() > 0:
+		var bonus := 0.0
+		for stat in stat_list:
+			bonus += stats.get_or_add(stat, 0)
+		return floori(bonus / stat_list.size())
+	else:
+		return 0
 
 
 func _add_skill(skill_name: String) -> SkillEntry:
@@ -678,6 +682,11 @@ func _update_all_bonuses() -> void:
 
 
 func load_from(data:Dictionary) -> void:
+	for skill_field in _skill_container.get_children():
+		skill_field.queue_free()
+	
+	await get_tree().process_frame
+	
 	for skill_name : String in data:
 		var skill_field := _add_skill(skill_name)
 		skill_field.load_from(data[skill_name])

@@ -14,8 +14,8 @@ func load_from(value: Vector3i) -> void:
 	_update_display()
 
 
-func get_save_data() -> Vector2i:
-	return Vector2i(_upgrade_value(), rank)
+func get_save_data() -> Vector3i:
+	return Vector3i(_upgrade_value(), rank, bonus)
 
 
 func upgrade(new_rank: int, new_bonus: int) -> void:

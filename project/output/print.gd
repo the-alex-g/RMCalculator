@@ -83,9 +83,10 @@ func load_from(path: String) -> void:
 			skill_bonus_container.add_element(_get_label(str(rank_bonus)))
 			
 			var stat_bonus := 0
-			for stat in skill.stats:
-				stat_bonus += stat_bonuses[STAT_NAMES[stat]]
-			stat_bonus /= skill.stats.size()
+			if skill.stats.size() > 0:
+				for stat in skill.stats:
+					stat_bonus += stat_bonuses[STAT_NAMES[stat]]
+				stat_bonus /= skill.stats.size()
 			skill_bonus_container.add_element(_get_label(str(floor(stat_bonus))))
 			
 			var label := Label.new()

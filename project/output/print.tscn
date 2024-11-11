@@ -148,6 +148,11 @@ layout_mode = 2
 
 [node name="Hits" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+text = "Total Hits:"
+
+[node name="PowerPoints" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Power Points:"
 
 [node name="Control" type="Control" parent="ScrollContainer/PrintBody"]
 custom_minimum_size = Vector2(0, 10)
