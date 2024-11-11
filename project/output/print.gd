@@ -1,7 +1,7 @@
 class_name PrintScreen
 extends VBoxContainer
 
-signal saved
+signal finished
 
 const STAT_NAMES := {
 	SkillContainer.IN:"Intuition",
@@ -28,10 +28,10 @@ func load_from(path: String) -> void:
 	var race: String = file.get_value("character", "race", "")
 	var rm_class: String = file.get_value("character", "class", "")
 	var level: int  = file.get_value("character", "level", 1)
-	$ScrollContainer/PrintBody/GridContainer/Name.text = "Character Name: " + file.get_value("character", "name", "")
+	$ScrollContainer/PrintBody/NameContainer/Name.text = "Character Name: " + file.get_value("character", "name", "")
 	$ScrollContainer/PrintBody/GridContainer/Profession.text = "Profession: " + rm_class
-	$ScrollContainer/PrintBody/GridContainer/HBoxContainer/Race.text = "Race: " + race
-	$ScrollContainer/PrintBody/GridContainer/HBoxContainer/Level.text = "Level: %d" % [level]
+	$ScrollContainer/PrintBody/GridContainer/Race.text = "Race: " + race
+	$ScrollContainer/PrintBody/GridContainer/Level.text = "Level: %d" % [level]
 	
 	var stat_bonuses := {}
 	
@@ -147,6 +147,17 @@ func _get_abbr(stat: String) -> String:
 
 
 func save_jpg() -> void:
+	var popup := FileDialog.new()
+	popup.add_filter("*.jpg")
+	popup.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+	popup.access = FileDialog.ACCESS_FILESYSTEM
+	
+	add_child(popup)
+	
+	popup.popup(Rect2(100, 100, 400, 300))
+	
+	var path : String = await popup.file_selected
+	
 	await RenderingServer.frame_post_draw
 	
 	var image := get_tree().root.get_texture().get_image()
@@ -154,9 +165,13 @@ func save_jpg() -> void:
 		ceili(_print_body.size.x),
 		ceili(_print_body.size.y)
 	)
-	image.save_jpg("res://mysave.jpg")
-	saved.emit()
+	image.save_jpg(path)
+	finished.emit()
 
 
 func _on_save_button_pressed() -> void:
 	save_jpg()
+
+
+func _on_back_button_pressed() -> void:
+	finished.emit()

@@ -85,7 +85,7 @@ func _open(filepath: String) -> void:
 	file.load(filepath)
 	
 	_stat_field.load_from(file.get_value("character", "stats", {}))
-	_hits.load_from(file.get_value("character", "hits", Vector2i.ZERO))
+	_hits.load_from(file.get_value("character", "hits", Vector3i.ZERO))
 	_name_field.text = file.get_value("character", "name", "")
 	
 	level = file.get_value("character", "level", 1)
@@ -196,13 +196,11 @@ func _on_skill_container_body_dev_upgraded(new_rank: int, bonus: int) -> void:
 
 
 func _on_download_jpg_pressed() -> void:
-	print("FOOLS")
-	
 	_print_screen.load_from(_load_path)
 	_print_screen.show()
 	_edit_screen.hide()
 	
-	await _print_screen.saved
+	await _print_screen.finished
 	
 	_print_screen.hide()
 	_edit_screen.show()
