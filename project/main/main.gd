@@ -1,4 +1,4 @@
-extends ScrollContainer
+extends Control
 
 signal race_changed(new_race: String)
 signal class_changed(new_class: String)
@@ -13,16 +13,18 @@ var level := 1 :
 var _leveling_up := false
 var _load_path := ""
 
-@onready var _stat_field : StatField = $VBoxContainer/StatField
-@onready var _name_field : LineEdit = $VBoxContainer/NameField
-@onready var _class_list : OptionButton = $VBoxContainer/CharacterOptions/ClassList
-@onready var _race_list : OptionButton = $VBoxContainer/CharacterOptions/RaceList
-@onready var _skill_container : SkillContainer = $VBoxContainer/SkillContainer
-@onready var _dev_point_label : Label = $VBoxContainer/CharacterOptions/DevPointLabel
-@onready var _log_label : Label = $VBoxContainer/CharacterOptions/LogLabel
-@onready var _level_field : LineEdit = $VBoxContainer/CharacterOptions/Level
-@onready var _level_up_button : Button = $VBoxContainer/CharacterOptions/LevelUpButton
-@onready var _hits : Hits = $VBoxContainer/Hits
+@onready var _stat_field : StatField = $EditScreen/Body/StatField
+@onready var _name_field : LineEdit = $EditScreen/Body/NameField
+@onready var _class_list : OptionButton = $EditScreen/Body/CharacterOptions/ClassList
+@onready var _race_list : OptionButton = $EditScreen/Body/CharacterOptions/RaceList
+@onready var _skill_container : SkillContainer = $EditScreen/Body/SkillContainer
+@onready var _dev_point_label : Label = $EditScreen/Body/CharacterOptions/DevPointLabel
+@onready var _log_label : Label = $EditScreen/Body/CharacterOptions/LogLabel
+@onready var _level_field : LineEdit = $EditScreen/Body/CharacterOptions/Level
+@onready var _level_up_button : Button = $EditScreen/Body/CharacterOptions/LevelUpButton
+@onready var _hits : Hits = $EditScreen/Body/Hits
+@onready var _edit_screen : ScrollContainer = $EditScreen
+@onready var _print_screen : PrintScreen = $PrintScreen
 
 
 func _ready() -> void:
@@ -191,3 +193,16 @@ func _on_skill_container_dev_points_updated(new_dev_points: int) -> void:
 
 func _on_skill_container_body_dev_upgraded(new_rank: int, bonus: int) -> void:
 	_hits.upgrade(new_rank, bonus)
+
+
+func _on_download_jpg_pressed() -> void:
+	print("FOOLS")
+	
+	_print_screen.load_from(_load_path)
+	_print_screen.show()
+	_edit_screen.hide()
+	
+	await _print_screen.saved
+	
+	_print_screen.hide()
+	_edit_screen.show()

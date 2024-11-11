@@ -1,95 +1,114 @@
-[gd_scene load_steps=6 format=3 uid="uid://ow1w02rwdu84"]
+[gd_scene load_steps=7 format=3 uid="uid://ow1w02rwdu84"]
 
 [ext_resource type="Script" path="res://main/main.gd" id="1_3b87w"]
 [ext_resource type="PackedScene" uid="uid://bqubu18xo2tn7" path="res://stat_field/stat_field.tscn" id="1_nyn8g"]
 [ext_resource type="PackedScene" uid="uid://dnt4dwboaj4p6" path="res://hits/hits.tscn" id="3_7kav7"]
 [ext_resource type="PackedScene" uid="uid://bvqc8fn7bmm6k" path="res://skills/skill_container.tscn" id="3_rcuqh"]
+[ext_resource type="PackedScene" uid="uid://dbrodt8pnxnyg" path="res://output/print.tscn" id="5_ibu4b"]
 
 [sub_resource type="Theme" id="Theme_mtamo"]
 Label/colors/font_color = Color(0, 0, 0, 1)
 
-[node name="Main" type="ScrollContainer"]
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3b87w")
+
+[node name="EditScreen" type="ScrollContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_mtamo")
-script = ExtResource("1_3b87w")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Body" type="VBoxContainer" parent="EditScreen"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NameField" type="LineEdit" parent="VBoxContainer"]
+[node name="NameField" type="LineEdit" parent="EditScreen/Body"]
 layout_mode = 2
 placeholder_text = "Character Name"
 
-[node name="CharacterOptions" type="GridContainer" parent="VBoxContainer"]
+[node name="CharacterOptions" type="GridContainer" parent="EditScreen/Body"]
 layout_mode = 2
 columns = 2
 
-[node name="RaceList" type="OptionButton" parent="VBoxContainer/CharacterOptions"]
+[node name="RaceList" type="OptionButton" parent="EditScreen/Body/CharacterOptions"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ClassList" type="OptionButton" parent="VBoxContainer/CharacterOptions"]
+[node name="ClassList" type="OptionButton" parent="EditScreen/Body/CharacterOptions"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Level" type="LineEdit" parent="VBoxContainer/CharacterOptions"]
+[node name="Level" type="LineEdit" parent="EditScreen/Body/CharacterOptions"]
 layout_mode = 2
 placeholder_text = "Level"
 max_length = 3
 
-[node name="LevelUpButton" type="Button" parent="VBoxContainer/CharacterOptions"]
+[node name="LevelUpButton" type="Button" parent="EditScreen/Body/CharacterOptions"]
 layout_mode = 2
 text = "Level Up"
 
-[node name="DevPointLabel" type="Label" parent="VBoxContainer/CharacterOptions"]
+[node name="DevPointLabel" type="Label" parent="EditScreen/Body/CharacterOptions"]
 layout_mode = 2
 
-[node name="LogLabel" type="Label" parent="VBoxContainer/CharacterOptions"]
+[node name="LogLabel" type="Label" parent="EditScreen/Body/CharacterOptions"]
 layout_mode = 2
 autowrap_mode = 2
 
-[node name="StatField" parent="VBoxContainer" instance=ExtResource("1_nyn8g")]
+[node name="StatField" parent="EditScreen/Body" instance=ExtResource("1_nyn8g")]
 layout_mode = 2
 
-[node name="Hits" parent="VBoxContainer" instance=ExtResource("3_7kav7")]
+[node name="Hits" parent="EditScreen/Body" instance=ExtResource("3_7kav7")]
 layout_mode = 2
 
-[node name="SkillContainer" parent="VBoxContainer" instance=ExtResource("3_rcuqh")]
+[node name="SkillContainer" parent="EditScreen/Body" instance=ExtResource("3_rcuqh")]
 layout_mode = 2
 
-[node name="EditOptions" type="HBoxContainer" parent="VBoxContainer"]
+[node name="EditOptions" type="HBoxContainer" parent="EditScreen/Body"]
 layout_mode = 2
 
-[node name="SaveButton" type="Button" parent="VBoxContainer/EditOptions"]
+[node name="SaveButton" type="Button" parent="EditScreen/Body/EditOptions"]
 layout_mode = 2
 text = "Save"
 
-[node name="OpenButton" type="Button" parent="VBoxContainer/EditOptions"]
+[node name="OpenButton" type="Button" parent="EditScreen/Body/EditOptions"]
 layout_mode = 2
 text = "Open a Character"
 
-[node name="MakeNewButton" type="Button" parent="VBoxContainer/EditOptions"]
+[node name="MakeNewButton" type="Button" parent="EditScreen/Body/EditOptions"]
 layout_mode = 2
 text = "Create a New Character"
 
-[connection signal="class_changed" from="." to="VBoxContainer/SkillContainer" method="_on_main_class_changed"]
-[connection signal="level_changed" from="." to="VBoxContainer/SkillContainer" method="_on_main_level_changed"]
-[connection signal="level_up_finished" from="." to="VBoxContainer/SkillContainer" method="_on_main_level_up_finished"]
-[connection signal="race_changed" from="." to="VBoxContainer/StatField" method="_on_main_race_changed"]
-[connection signal="item_selected" from="VBoxContainer/CharacterOptions/RaceList" to="." method="_on_race_list_item_selected"]
-[connection signal="item_selected" from="VBoxContainer/CharacterOptions/ClassList" to="." method="_on_class_list_item_selected"]
-[connection signal="text_changed" from="VBoxContainer/CharacterOptions/Level" to="." method="_on_level_text_changed"]
-[connection signal="pressed" from="VBoxContainer/CharacterOptions/LevelUpButton" to="." method="_on_level_up_button_pressed"]
-[connection signal="bonuses_changed" from="VBoxContainer/StatField" to="." method="_on_stat_field_bonuses_changed"]
-[connection signal="body_dev_upgraded" from="VBoxContainer/SkillContainer" to="." method="_on_skill_container_body_dev_upgraded"]
-[connection signal="dev_points_updated" from="VBoxContainer/SkillContainer" to="." method="_on_skill_container_dev_points_updated"]
-[connection signal="pressed" from="VBoxContainer/EditOptions/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/EditOptions/OpenButton" to="." method="_on_open_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/EditOptions/MakeNewButton" to="." method="_on_make_new_button_pressed"]
+[node name="DownloadJPG" type="Button" parent="EditScreen/Body/EditOptions"]
+layout_mode = 2
+text = "Download JPG"
+
+[node name="PrintScreen" parent="." instance=ExtResource("5_ibu4b")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+offset_right = 0.0
+grow_horizontal = 2
+
+[connection signal="item_selected" from="EditScreen/Body/CharacterOptions/RaceList" to="EditScreen" method="_on_race_list_item_selected"]
+[connection signal="item_selected" from="EditScreen/Body/CharacterOptions/ClassList" to="EditScreen" method="_on_class_list_item_selected"]
+[connection signal="text_changed" from="EditScreen/Body/CharacterOptions/Level" to="EditScreen" method="_on_level_text_changed"]
+[connection signal="pressed" from="EditScreen/Body/CharacterOptions/LevelUpButton" to="EditScreen" method="_on_level_up_button_pressed"]
+[connection signal="bonuses_changed" from="EditScreen/Body/StatField" to="EditScreen" method="_on_stat_field_bonuses_changed"]
+[connection signal="body_dev_upgraded" from="EditScreen/Body/SkillContainer" to="EditScreen" method="_on_skill_container_body_dev_upgraded"]
+[connection signal="dev_points_updated" from="EditScreen/Body/SkillContainer" to="EditScreen" method="_on_skill_container_dev_points_updated"]
+[connection signal="pressed" from="EditScreen/Body/EditOptions/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="EditScreen/Body/EditOptions/OpenButton" to="." method="_on_open_button_pressed"]
+[connection signal="pressed" from="EditScreen/Body/EditOptions/MakeNewButton" to="." method="_on_make_new_button_pressed"]
+[connection signal="pressed" from="EditScreen/Body/EditOptions/DownloadJPG" to="." method="_on_download_jpg_pressed"]

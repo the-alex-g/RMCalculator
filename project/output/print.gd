@@ -1,4 +1,7 @@
-extends ScrollContainer
+class_name PrintScreen
+extends VBoxContainer
+
+signal saved
 
 const STAT_NAMES := {
 	SkillContainer.IN:"Intuition",
@@ -13,21 +16,9 @@ const STAT_NAMES := {
 	SkillContainer.CO:"Constitution"
 }
 
-@onready var _language_list_container : VBoxContainer = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Languages
-@onready var _language_bonus_container : CompoundHeading = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CompoundHeading
-
-
-func _ready() -> void:
-	load_from("res://characters/nuquerna.cfg")
-	
-	await RenderingServer.frame_post_draw
-	
-	var image := get_tree().root.get_texture().get_image()
-	image.crop(
-		$VBoxContainer.size.x,
-		$VBoxContainer.size.y
-	)
-	image.save_jpg("res://mysave.jpg")
+@onready var _language_list_container : VBoxContainer = $ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer/Languages
+@onready var _language_bonus_container : CompoundHeading = $ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer/CompoundHeading
+@onready var _print_body : VBoxContainer = $ScrollContainer/PrintBody
 
 
 func load_from(path: String) -> void:
@@ -37,10 +28,10 @@ func load_from(path: String) -> void:
 	var race: String = file.get_value("character", "race", "")
 	var rm_class: String = file.get_value("character", "class", "")
 	var level: int  = file.get_value("character", "level", 1)
-	$VBoxContainer/GridContainer/Name.text = "Character Name: " + file.get_value("character", "name", "")
-	$VBoxContainer/GridContainer/Label.text = "Profession: " + rm_class
-	$VBoxContainer/GridContainer/HBoxContainer/Label2.text = "Race: " + race
-	$VBoxContainer/GridContainer/HBoxContainer/Label.text = "Level: %d" % [level]
+	$ScrollContainer/PrintBody/GridContainer/Name.text = "Character Name: " + file.get_value("character", "name", "")
+	$ScrollContainer/PrintBody/GridContainer/Profession.text = "Profession: " + rm_class
+	$ScrollContainer/PrintBody/GridContainer/HBoxContainer/Race.text = "Race: " + race
+	$ScrollContainer/PrintBody/GridContainer/HBoxContainer/Level.text = "Level: %d" % [level]
 	
 	var stat_bonuses := {}
 	
@@ -52,15 +43,15 @@ func load_from(path: String) -> void:
 		]:
 			var label := Label.new()
 			label.text = s
-			$VBoxContainer/HBoxContainer/Stats.add_child(label)
+			$ScrollContainer/PrintBody/HBoxContainer/Stats.add_child(label)
 		
 		if stat in ["Constitution", "Agility", "Self-Discipline", "Memory", "Reasoning"]:
 			var label := Label.new()
 			label.text = str(StatField.calculate_dev_points(stat_dict.temp))
 			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			$VBoxContainer/HBoxContainer/Stats.add_child(label)
+			$ScrollContainer/PrintBody/HBoxContainer/Stats.add_child(label)
 		else:
-			$VBoxContainer/HBoxContainer/Stats.add_child(Control.new())
+			$ScrollContainer/PrintBody/HBoxContainer/Stats.add_child(Control.new())
 		
 		var normal := StatField.get_base_bonus(stat_dict.temp)
 		var racial := StatField.get_racial_bonus(stat, race)
@@ -71,7 +62,7 @@ func load_from(path: String) -> void:
 			var label := Label.new()
 			label.text = str(i)
 			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			$VBoxContainer/HBoxContainer/StatBonuses.add_element(label)
+			$ScrollContainer/PrintBody/HBoxContainer/StatBonuses.add_element(label)
 	
 	if file.has_section("skills"):
 		var i := 0
@@ -126,17 +117,17 @@ func load_from(path: String) -> void:
 				_language_bonus_container.add_element(label)
 	
 	var hits : Vector3i = file.get_value("character", "hits", Vector3i.ZERO)
-	$VBoxContainer/HBoxContainer/VBoxContainer/Hits.text = "Total Hits: %d" % [
+	$ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/Hits.text = "Total Hits: %d" % [
 		Hits.calculate_total_hits(hits.x, hits.z)
 	]
 
 
 func _get_skill_bonus_container(col: int) -> CompoundHeading:
-	return get_node("VBoxContainer/Skills/BonusesColumn%d" % [col])
+	return get_node("ScrollContainer/PrintBody/Skills/BonusesColumn%d" % [col])
 
 
 func _get_skill_name_container(col: int) -> VBoxContainer:
-	return get_node("VBoxContainer/Skills/SkillNameColumn%d" % [col])
+	return get_node("ScrollContainer/PrintBody/Skills/SkillNameColumn%d" % [col])
 
 
 func _get_label(text: String) -> Label:
@@ -153,3 +144,19 @@ func _get_abbr(stat: String) -> String:
 		for x in 2:
 			abbr += stat[x]
 	return "(%s)" % [abbr.to_upper()]
+
+
+func save_jpg() -> void:
+	await RenderingServer.frame_post_draw
+	
+	var image := get_tree().root.get_texture().get_image()
+	image.crop(
+		ceili(_print_body.size.x),
+		ceili(_print_body.size.y)
+	)
+	image.save_jpg("res://mysave.jpg")
+	saved.emit()
+
+
+func _on_save_button_pressed() -> void:
+	save_jpg()

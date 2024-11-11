@@ -1,180 +1,198 @@
-[gd_scene load_steps=4 format=3 uid="uid://dbrodt8pnxnyg"]
+[gd_scene load_steps=5 format=3 uid="uid://dbrodt8pnxnyg"]
 
 [ext_resource type="Script" path="res://output/compound_cell.gd" id="1_5gs3u"]
 [ext_resource type="Script" path="res://output/print.gd" id="1_8ihut"]
 
-[sub_resource type="Theme" id="Theme_6l0k2"]
+[sub_resource type="Theme" id="Theme_cdbwc"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_2ory7"]
 default_font_size = 8
 Label/colors/font_color = Color(0, 0, 0, 1)
 
-[node name="Print" type="ScrollContainer"]
-anchors_preset = 15
-anchor_right = 1.0
+[node name="PrintScreen" type="VBoxContainer"]
+anchors_preset = 9
 anchor_bottom = 1.0
-grow_horizontal = 2
+offset_right = 646.0
 grow_vertical = 2
-theme = SubResource("Theme_6l0k2")
+theme = SubResource("Theme_cdbwc")
 script = ExtResource("1_8ihut")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+[node name="PrintBody" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = SubResource("Theme_2ory7")
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/PrintBody"]
 layout_mode = 2
 columns = 2
 
-[node name="Name" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="Name" type="Label" parent="ScrollContainer/PrintBody/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Character Name: "
 
-[node name="PlayerName" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="PlayerName" type="Label" parent="ScrollContainer/PrintBody/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Player Name:"
 
-[node name="Label" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="Profession" type="Label" parent="ScrollContainer/PrintBody/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Profession"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PrintBody/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+[node name="Level" type="Label" parent="ScrollContainer/PrintBody/GridContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Level"
 
-[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+[node name="Race" type="Label" parent="ScrollContainer/PrintBody/GridContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Race"
 
-[node name="Label2" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="PlaceOfOrigin" type="Label" parent="ScrollContainer/PrintBody/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Place of Origin"
 
-[node name="Label3" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="Religion" type="Label" parent="ScrollContainer/PrintBody/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Religion"
 
-[node name="Control2" type="Control" parent="VBoxContainer"]
+[node name="Control2" type="Control" parent="ScrollContainer/PrintBody"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PrintBody"]
 layout_mode = 2
 
-[node name="Stats" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Stats" type="GridContainer" parent="ScrollContainer/PrintBody/HBoxContainer"]
 layout_mode = 2
 columns = 5
 
-[node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+[node name="Label4" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/Stats"]
 layout_mode = 2
 text = "Main"
 
-[node name="Label5" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+[node name="Label5" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/Stats"]
 layout_mode = 2
 text = "Abbr."
 horizontal_alignment = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+[node name="Label" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/Stats"]
 layout_mode = 2
 text = "Temp."
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+[node name="Label2" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/Stats"]
 layout_mode = 2
 text = "Pot."
 horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/Stats"]
+[node name="Label3" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/Stats"]
 layout_mode = 2
 text = "Dev.
 Pts."
 horizontal_alignment = 1
 
-[node name="StatBonuses" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="StatBonuses" type="VBoxContainer" parent="ScrollContainer/PrintBody/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("1_5gs3u")
 title = "BONUSES"
 sections = Array[String](["Normal", "Race", "Total"])
 
-[node name="Control3" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control3" type="Control" parent="ScrollContainer/PrintBody/HBoxContainer"]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/PrintBody/HBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Languages" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Languages" type="VBoxContainer" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Languages"]
+[node name="Label" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer/Languages"]
 layout_mode = 2
 text = "Languages"
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Languages"]
+[node name="Control" type="Control" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer/Languages"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="CompoundHeading" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CompoundHeading" type="VBoxContainer" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 script = ExtResource("1_5gs3u")
 title = "RANK"
 sections = Array[String](["Spoken", "Written"])
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Control" type="Control" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
 
-[node name="Hits" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Hits" type="Label" parent="ScrollContainer/PrintBody/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="VBoxContainer"]
+[node name="Control" type="Control" parent="ScrollContainer/PrintBody"]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="Skills" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Skills" type="HBoxContainer" parent="ScrollContainer/PrintBody"]
 layout_mode = 2
 
-[node name="SkillNameColumn1" type="VBoxContainer" parent="VBoxContainer/Skills"]
+[node name="SkillNameColumn1" type="VBoxContainer" parent="ScrollContainer/PrintBody/Skills"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Skills/SkillNameColumn1"]
+[node name="Label" type="Label" parent="ScrollContainer/PrintBody/Skills/SkillNameColumn1"]
 layout_mode = 2
 text = "Skill/Capability"
 vertical_alignment = 2
 
-[node name="Control" type="Label" parent="VBoxContainer/Skills/SkillNameColumn1"]
+[node name="Control" type="Label" parent="ScrollContainer/PrintBody/Skills/SkillNameColumn1"]
 layout_mode = 2
 
-[node name="BonusesColumn1" type="VBoxContainer" parent="VBoxContainer/Skills"]
+[node name="BonusesColumn1" type="VBoxContainer" parent="ScrollContainer/PrintBody/Skills"]
 layout_mode = 2
 script = ExtResource("1_5gs3u")
 title = "BONUSES"
 sections = Array[String](["Rank", "Stat", "Level", "Item", "Misc.", "Misc.", "Total"])
 
-[node name="SkillNameColumn2" type="VBoxContainer" parent="VBoxContainer/Skills"]
+[node name="SkillNameColumn2" type="VBoxContainer" parent="ScrollContainer/PrintBody/Skills"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/Skills/SkillNameColumn2"]
+[node name="Label" type="Label" parent="ScrollContainer/PrintBody/Skills/SkillNameColumn2"]
 layout_mode = 2
 text = "Skill/Capability"
 vertical_alignment = 2
 
-[node name="Control" type="Label" parent="VBoxContainer/Skills/SkillNameColumn2"]
+[node name="Control" type="Label" parent="ScrollContainer/PrintBody/Skills/SkillNameColumn2"]
 layout_mode = 2
 
-[node name="BonusesColumn2" type="VBoxContainer" parent="VBoxContainer/Skills"]
+[node name="BonusesColumn2" type="VBoxContainer" parent="ScrollContainer/PrintBody/Skills"]
 layout_mode = 2
 script = ExtResource("1_5gs3u")
 title = "BONUSES"
 sections = Array[String](["Rank", "Stat", "Level", "Item", "Misc.", "Misc.", "Total"])
+
+[node name="Instrux" type="Label" parent="."]
+layout_mode = 2
+text = "Resize the window so that all the text can be seen, then press the \"save jpg\" button."
+
+[node name="SaveButton" type="Button" parent="."]
+layout_mode = 2
+text = "Save JPG"
+
+[connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
