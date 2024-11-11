@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnt4dwboaj4p6"]
+
+[ext_resource type="Script" path="res://hits/hits.gd" id="1_vfgyy"]
+
+[node name="Hits" type="VBoxContainer"]
+script = ExtResource("1_vfgyy")
+
+[node name="Base" type="Label" parent="."]
+layout_mode = 2
+text = "Base Hits: 0"
+
+[node name="Total" type="Label" parent="."]
+layout_mode = 2
+text = "Total Hits: 0"

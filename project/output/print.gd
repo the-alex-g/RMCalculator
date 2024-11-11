@@ -14,6 +14,8 @@ const STAT_NAMES := {
 }
 
 @onready var _skill_bonus_container : CompoundHeading = $VBoxContainer/HBoxContainer2/Bonuses
+@onready var _language_list_container : VBoxContainer = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/Languages
+@onready var _language_bonus_container : CompoundHeading = $VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/CompoundHeading
 
 
 func _ready() -> void:
@@ -99,13 +101,18 @@ func load_from(path: String) -> void:
 	
 	if file.has_section("languages"):
 		for language in file.get_section_keys("languages"):
-			$VBoxContainer/HBoxContainer/Languages.add_child(_get_label(language.capitalize()))
+			_language_list_container.add_child(_get_label(language.capitalize()))
 			
 			var ranks : Vector2i = file.get_value("languages", language, Vector2i.ZERO)
 			for rank in [ranks.x, ranks.y]:
 				var label := _get_label(str(rank))
 				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-				$VBoxContainer/HBoxContainer/CompoundHeading.add_element(label)
+				_language_bonus_container.add_element(label)
+	
+	var hits : Vector3i = file.get_value("character", "hits", Vector3i.ZERO)
+	$VBoxContainer/HBoxContainer/VBoxContainer/Hits.text = "Total Hits: %d" % [
+		Hits.calculate_total_hits(hits.x, hits.z)
+	]
 
 
 func _get_label(text: String) -> Label:

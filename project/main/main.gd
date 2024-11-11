@@ -65,6 +65,7 @@ func _save(to := _load_path) -> void:
 	save_file.set_value("character", "race", _race_list.get_item_text(_race_list.selected))
 	save_file.set_value("character", "level", level)
 	save_file.set_value("character", "class", _class_list.get_item_text(_class_list.selected))
+	save_file.set_value("character", "hits", _hits.get_save_data())
 	
 	var skill_save_data := _skill_container.get_save_data()
 	for skill_name in skill_save_data:
@@ -82,6 +83,7 @@ func _open(filepath: String) -> void:
 	file.load(filepath)
 	
 	_stat_field.load_from(file.get_value("character", "stats", {}))
+	_hits.load_from(file.get_value("character", "hits", Vector2i.ZERO))
 	_name_field.text = file.get_value("character", "name", "")
 	
 	level = file.get_value("character", "level", 1)

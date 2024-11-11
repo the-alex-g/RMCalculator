@@ -652,8 +652,8 @@ func _on_skill_field_rank_changed(cost: int, skill_field: SkillEntry) -> void:
 	_dev_points -= cost
 	await get_tree().process_frame
 	_calculate_bonus(skill_field)
-	if skill_field.skill.skill_name == "Body Dev.":
-		body_dev_upgraded.emit(skill_field.get_rank(), skill_field.total_bonus)
+	if skill_field.skill.skill_name == "Body Development":
+		body_dev_upgraded.emit(skill_field.get_rank(), _get_stat_bonus(skill_field.skill.stats))
 
 
 func _calculate_bonus(skill_field: SkillEntry) -> void:
